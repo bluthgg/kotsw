@@ -205,3 +205,12 @@ function fromHash(){
 if(!fromHash()) initShared();
 window.addEventListener('hashchange',fromHash);
 })();
+
+(function(){
+  var b=document.querySelector('.totop'); if(!b) return;
+  b.addEventListener('click',function(e){
+    e.preventDefault();
+    var r=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try{ window.scrollTo({top:0,behavior:r?'auto':'smooth'}); }catch(x){ window.scrollTo(0,0); }
+  });
+})();

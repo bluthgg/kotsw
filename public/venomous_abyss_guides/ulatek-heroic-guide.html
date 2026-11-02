@@ -193,6 +193,10 @@ tr:last-child td{border-bottom:0}
 td:first-child{font-weight:700;white-space:nowrap}
 .foot{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:14px}
 .foot li{margin-top:4px}
+.back{display:inline-flex;align-items:center;gap:8px;margin-top:max(12px,env(safe-area-inset-top,0px));font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.back:hover,.back:focus-visible{color:var(--venom);border-color:var(--venom)}
+.totop{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:12px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer}
+.totop:hover,.totop:focus-visible{color:var(--venom);border-color:var(--venom)}
 
 @keyframes shimmer{0%,100%{opacity:.65}50%{opacity:1}}
 @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
@@ -269,6 +273,7 @@ td:first-child{font-weight:700;white-space:nowrap}
 .rs-row{display:flex;flex-wrap:wrap;gap:8px}
 .rshare button{font:inherit;font-weight:600;font-size:13px;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--fg);cursor:pointer}
 .rshare button:hover{border-color:var(--venom)}
+.rshare button.arm{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
 .rshare input{width:100%;min-width:0;font:13px var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--fg)}
 .rs-msg{font-size:13px;color:var(--muted);min-height:1.2em;margin:0}
 .prow.hasegg{grid-template-columns:minmax(0,1fr) 34px 62px}
@@ -284,7 +289,9 @@ td:first-child{font-weight:700;white-space:nowrap}
 <style>body{background:var(--bg);color:var(--fg)}</style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="top">
+
+<a class="back" href="/#wow"><span aria-hidden="true">←</span> Back to kotsw.com</a>
 
 <header class="hero">
   <div>
@@ -770,6 +777,7 @@ td:first-child{font-weight:700;white-space:nowrap}
     <li><a href="https://www.method.gg/guides/the-venomous-abyss/ulatek-heroic">Method: Ula'tek Heroic</a></li>
     <li><a href="https://www.wowhead.com/guide/midnight/raids/venomous-abyss-ulatek-boss-strategy-abilities#bossinfo-boss-cheat-sheet">Wowhead: Ula'tek boss cheat sheet and abilities</a></li>
   </ul>
+  <a class="totop" href="#top"><span aria-hidden="true">↑</span> Back to top</a>
 </footer>
 
 </div>
@@ -1094,14 +1102,14 @@ function cfgP2(){
     {t:'Kill the Warden and its eggs', p:'The Warden snaps onto the eggs. Tanks interrupt every Malice and keep it next to the attackable eggs. Everyone else burns the eggs and the Warden down.',
       pos:merge(both(88,276,.72,96,222),setAll(function(g,x){ var o={}; o['w'+x]=P(g,96,198); return o; })),
       who:[who('tank','Tanks','Interrupt Malice',[],tank('o').concat(tank('e')).map(disp).join(', '))]},
-    {t:'Odds snap their tethers first', p:'The Warden is dead. 3 random players per side are tethered, whether melee, ranged, healer or tank. Odds spread out slowly until their 3 tethers snap. Evens keep still and wait. Dodge the swirlies.',
+    {t:'Odds snap their tethers first', p:'3 random players per side are tethered, whether melee, ranged, healer or tank. Odds spread out slowly until their 3 tethers snap. Evens keep still and wait. Dodge the swirlies.',
       pos:merge(both(112,272,.72,150,250),hideAll,eggsAt('o','a'),eggsAt('e','b'),placeG('o',tO,stretch),placeG('e',tE,slack)),
       lines:lines3('o',tO).concat(lines3('e',tE,'slack')),
       who:[who('odds','Odds','Snap tethers',tO),who('evens','Evens','Wait',tE)]},
     {t:'Odds DoT drops, then Evens snap', p:'When the Odds DoT falls off, Evens spread out and snap their 3 tethers. Odds stay out of the swirlies.',
       pos:merge(placeG('o',tO,slack),placeG('e',tE,stretch)), lines:lines3('e',tE),
       who:[who('evens','Evens','Snap tethers',tE),who('odds','Odds','DoT dropped',[],'wait for it to clear')]},
-    {t:'Small eggs to the cauldron', p:'DPS, healers and tanks all carry the small eggs (6 to 8) to the cauldron. The tank stays at the cauldron and picks up the small adds. Avoid every green falling circle. One hatches an egg and makes the adds harder to kill.',
+    {t:'Small eggs to the cauldron', p:'The Warden is dead. Now the eggs can be collected. DPS, healers and tanks all carry the small eggs (6 to 8) to the cauldron. The tank stays at the cauldron and picks up the small adds. Avoid every green falling circle. One hatches an egg and makes the adds harder to kill.',
       pos:merge(both(150,262,.72,100,284),setAll(function(g,x){
         var o={}, c=[pick(g,1),pick(g,3),pick(g,5)];
         for(var i=1;i<=4;i++){ o[x+i]=null; o['s'+x+i]=RING[i-1]?P(g,RING[i-1][0],RING[i-1][1]):null; }
@@ -1429,6 +1437,7 @@ var sInp,sMsg;
   var row=htmlEl('div','rs-row',null,shareBox);
   var bc=htmlEl('button',null,'Copy share link',row); bc.type='button';
   var bi=htmlEl('button',null,'Import link or code',row); bi.type='button';
+  var br=htmlEl('button',null,'Reset roster',row); br.type='button'; var brT=0;
   sInp=htmlEl('input',null,null,shareBox); sInp.type='text'; sInp.setAttribute('aria-label','Share link or code'); sInp.placeholder='Share link or code appears here. Paste one here to import.'; sInp.autocomplete='off';
   sMsg=htmlEl('p','rs-msg',null,shareBox); sMsg.setAttribute('role','status');
   bc.addEventListener('click',function(){
@@ -1443,6 +1452,18 @@ var sInp,sMsg;
     if(!editable()){ sMsg.textContent='The raid leader controls the roster here, so it cannot be replaced.'; return; }
     R=d; renderRoster(); refresh(); save(); sMsg.textContent='Roster imported.';
   });
+  br.addEventListener('click',function(){
+    if(!editable()){ sMsg.textContent='The raid leader controls the roster here, so it cannot be reset.'; return; }
+    if(!brT){
+      br.textContent='Tap again to confirm'; br.classList.add('arm');
+      brT=setTimeout(function(){ brT=0; br.textContent='Reset roster'; br.classList.remove('arm'); },4000);
+      return;
+    }
+    clearTimeout(brT); brT=0; br.textContent='Reset roster'; br.classList.remove('arm');
+    R=defaults(); renderRoster(); refresh(); save(); sInp.value='';
+    try{ if(/^#r=/.test(location.hash||'')) history.replaceState(null,'',location.href.split('#')[0]); }catch(e){}
+    sMsg.textContent='Roster reset to the default raid.';
+  });
 })();
 function fromHash(){
   var m=/^#r=([A-Za-z0-9_-]+)$/.exec(location.hash||''); if(!m) return false;
@@ -1451,6 +1472,15 @@ function fromHash(){
 }
 if(!fromHash()) initShared();
 window.addEventListener('hashchange',fromHash);
+})();
+
+(function(){
+  var b=document.querySelector('.totop'); if(!b) return;
+  b.addEventListener('click',function(e){
+    e.preventDefault();
+    var r=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try{ window.scrollTo({top:0,behavior:r?'auto':'smooth'}); }catch(x){ window.scrollTo(0,0); }
+  });
 })();
 /* Ability icons from Wowhead, 16x16, 16-colour palette each (96 hex palette chars + 256 pixel nibbles) */
 (function(){

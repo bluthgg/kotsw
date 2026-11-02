@@ -63,6 +63,7 @@ Headings use `text-wrap:balance`. Body lines stay near 60ch (`max-width:52ch` to
 
 ## 4. Page structure of a boss guide
 
+0. **Back link.** The very first thing on the page, above the hero: a pill that says "Back to kotsw.com" and links to the home page (`/#wow` for WoW guides, so it lands on that section). See components.
 1. **Hero.** Mono eyebrow ("The Venomous Abyss · Boss 8 · Heroic"), giant boss name, one or two sentence intro, and a "My group" picker (Both / Odds / Evens) on the right.
 2. **Raid roster panel.** Counts (healers, melee, ranged, extras), name boxes by role, an Odds or Evens button per player, summary line. Names appear in the diagrams.
 3. **Before the pull.** Short bullet list with a small green dash.
@@ -71,7 +72,7 @@ Headings use `text-wrap:balance`. Body lines stay near 60ch (`max-width:52ch` to
 6. **Sticky nav.** Pill links to each phase and to "By role".
 7. **One section per phase.** Phase eyebrow, display title, one-line job. Diagram on the left, calls and mechanics on the right (stacks on mobile).
 8. **By role table.** Rows are tanks, healers, melee, ranged. Columns are phases.
-9. **Footer.** Sources list. Credit the Odds and Evens calls as ours.
+9. **Footer.** Sources list. Credit the Odds and Evens calls as ours. The last thing on the page is a "Back to top" button. See components.
 
 Max content width is 1080px. Side gutter is at least 16px using `max(16px, env(safe-area-inset-left))` on both sides.
 
@@ -83,7 +84,9 @@ Max content width is 1080px. Side gutter is at least 16px using `max(16px, env(s
 - **Tip box** (`.tip`): purple left border (4px), mono "TIP" label. For handy extras, like the Warlock gateway. Stack tips with 12px between them.
 - **Important box** (`.important`): red border with a 5px left edge, tinted red fill, mono red heading ("Important: Phase 3"). Use sparingly, only for wipe mechanics. Leave about 30px of space above and below.
 - **Egg button** (`.ebtn`): 34px square outline button with an egg-shaped icon in each roster row (not for tanks). Tapping it marks that player as their group's Phase 2 big egg carrier. Selected state is filled with `--egg`. One per group.
+- **Roster buttons** (`.rshare button`): Copy share link, Import link or code, and Reset roster. Reset puts back the default raid (5 healers, 6 melee, 7 ranged, 2 extra, Odds 11 and Evens 9) and clears names, groups and egg carriers. It asks twice: the first tap turns the button red and says "Tap again to confirm" for 4 seconds. Never use `confirm()`.
 - **Diagram stage** (`.stage`): rounded surface card holding the SVG, then legend, then step caption (title in display font, text in muted body), then controls (Prev, Play or Pause, Next) and numbered step pips.
+- **Back link** (`.back`) and **Back to top button** (`.totop`): **required on every page except the home page.** Both are pills: mono 12px, 700, uppercase, letter-spacing .12em, `--surface` fill, 1px `--line` border, full rounded corners. Hover and keyboard focus turn the text and border the page accent (`--venom` on guides). The back link is an `<a class="back" href="/#wow">` with a "←" (in an `aria-hidden` span) and the text "Back to kotsw.com". Put it before the hero and give the page wrapper `id="top"`. The top button is an `<a class="totop" href="#top">` with "↑" and "Back to top", placed at the end of the footer. Its script scrolls to the top smoothly and jumps instantly when the visitor prefers reduced motion; the `#top` anchor is the fallback without script. In a Claude artifact copy, point the back link at the full `https://kotsw.com/#wow` address. Pages in other sections use that section's anchor (`/#code`, `/#pinball`, `/#else`).
 - **Table** (`.tbl`): bordered, scrolls sideways on phones, first column bold.
 
 ## 6. Diagram language
@@ -137,6 +140,7 @@ A finished guide for kotsw.com is **one standalone `.html` file** with:
 - All CSS and JS inline. Only Google Fonts is loaded from outside.
 - Must work at about 400px wide with no sideways page scroll.
 - The three favicon `<link>` tags from section 12 in the `<head>`.
+- The back link at the top and the "Back to top" button at the bottom (section 5, components).
 
 Publish folder: guides go in `public/venomous_abyss_guides/` (the website root is `public/`).
 

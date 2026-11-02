@@ -119,14 +119,14 @@ function cfgP2(){
     {t:'Kill the Warden and its eggs', p:'The Warden snaps onto the eggs. Tanks interrupt every Malice and keep it next to the attackable eggs. Everyone else burns the eggs and the Warden down.',
       pos:merge(both(88,276,.72,96,222),setAll(function(g,x){ var o={}; o['w'+x]=P(g,96,198); return o; })),
       who:[who('tank','Tanks','Interrupt Malice',[],tank('o').concat(tank('e')).map(disp).join(', '))]},
-    {t:'Odds snap their tethers first', p:'The Warden is dead. 3 random players per side are tethered, whether melee, ranged, healer or tank. Odds spread out slowly until their 3 tethers snap. Evens keep still and wait. Dodge the swirlies.',
+    {t:'Odds snap their tethers first', p:'3 random players per side are tethered, whether melee, ranged, healer or tank. Odds spread out slowly until their 3 tethers snap. Evens keep still and wait. Dodge the swirlies.',
       pos:merge(both(112,272,.72,150,250),hideAll,eggsAt('o','a'),eggsAt('e','b'),placeG('o',tO,stretch),placeG('e',tE,slack)),
       lines:lines3('o',tO).concat(lines3('e',tE,'slack')),
       who:[who('odds','Odds','Snap tethers',tO),who('evens','Evens','Wait',tE)]},
     {t:'Odds DoT drops, then Evens snap', p:'When the Odds DoT falls off, Evens spread out and snap their 3 tethers. Odds stay out of the swirlies.',
       pos:merge(placeG('o',tO,slack),placeG('e',tE,stretch)), lines:lines3('e',tE),
       who:[who('evens','Evens','Snap tethers',tE),who('odds','Odds','DoT dropped',[],'wait for it to clear')]},
-    {t:'Small eggs to the cauldron', p:'DPS, healers and tanks all carry the small eggs (6 to 8) to the cauldron. The tank stays at the cauldron and picks up the small adds. Avoid every green falling circle. One hatches an egg and makes the adds harder to kill.',
+    {t:'Small eggs to the cauldron', p:'The Warden is dead. Now the eggs can be collected. DPS, healers and tanks all carry the small eggs (6 to 8) to the cauldron. The tank stays at the cauldron and picks up the small adds. Avoid every green falling circle. One hatches an egg and makes the adds harder to kill.',
       pos:merge(both(150,262,.72,100,284),setAll(function(g,x){
         var o={}, c=[pick(g,1),pick(g,3),pick(g,5)];
         for(var i=1;i<=4;i++){ o[x+i]=null; o['s'+x+i]=RING[i-1]?P(g,RING[i-1][0],RING[i-1][1]):null; }

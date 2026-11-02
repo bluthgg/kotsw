@@ -33,6 +33,7 @@ On Sam's computer the repo root is `C:\Users\sambo\Desktop\kotsw`, the website i
 6. Do not delete or overwrite a published guide without asking. Make a new file or ask first.
 7. Test before saying a guide is done: step through every diagram (clicking a step must show the same picture as playing to it), check light and dark, and check phone width.
 8. Logo and favicon: follow `STYLE-GUIDE.md` section 12. Every page needs the three favicon `<link>` tags in `<head>`. Use the logo files in `public/brand/` as they are. Do not redraw, recolor, or stretch them. Pages in the venom-green look use the venom-green accent in place of copper, as section 12 describes. On those pages use the `kotsw-*-venom-*` files in `public/brand/`. Everywhere else, including the home page, use the copper files (no `venom` in the name).
+9. Navigation: every page except the home page has the "Back to kotsw.com" link at the very top and a "Back to top" button at the very bottom. Use the exact markup and styling in `STYLE-GUIDE.md` section 5 (components). Back links go to the page's section on the home page, for example `/#wow`.
 
 ## Home page (`public/index.html`)
 
