@@ -13,6 +13,9 @@ head = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 """
 mid = "<style>body{background:var(--bg);color:var(--fg)}</style>\n</head>\n<body>\n"
 body = "".join(rd(n) for n in ["p3-top.html", "p4a-phase1.html", "p4b-phase2.html", "p5-int-p3.html"])
