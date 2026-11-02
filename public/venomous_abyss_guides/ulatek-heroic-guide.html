@@ -193,10 +193,17 @@ tr:last-child td{border-bottom:0}
 td:first-child{font-weight:700;white-space:nowrap}
 .foot{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:14px}
 .foot li{margin-top:4px}
-.back{display:inline-flex;align-items:center;gap:8px;margin-top:max(12px,env(safe-area-inset-top,0px));font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:16px;border-bottom:1px solid var(--line)}
+.topbar .logo{display:inline-flex}
+.topbar .logo img{height:44px;width:auto;display:block}
+.back{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .back:hover,.back:focus-visible{color:var(--venom);border-color:var(--venom)}
-.totop{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:12px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer}
-.totop:hover,.totop:focus-visible{color:var(--venom);border-color:var(--venom)}
+.foot .frow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding-top:24px;padding-bottom:max(32px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.foot .fbrand{display:flex;align-items:center;gap:14px}
+.foot .fbrand img{height:32px;width:auto;display:block}
+.foot .fbrand p{margin:0}
+.foot a.up{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:0;cursor:pointer}
+.foot a.up:hover,.foot a.up:focus-visible{color:var(--fg)}
 
 @keyframes shimmer{0%,100%{opacity:.65}50%{opacity:1}}
 @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
@@ -291,7 +298,15 @@ td:first-child{font-weight:700;white-space:nowrap}
 <body>
 <div class="wrap" id="top">
 
-<a class="back" href="/#wow"><span aria-hidden="true">←</span> Back to kotsw.com</a>
+<div class="topbar">
+  <a class="logo" href="/" aria-label="Knights of the Silicon Wafer home">
+    <picture>
+      <source srcset="/brand/kotsw-lockup-venom-light.svg" media="(prefers-color-scheme: light)">
+      <img src="/brand/kotsw-lockup-venom-dark.svg" alt="Knights of the Silicon Wafer" height="44">
+    </picture>
+  </a>
+  <a class="back" href="/#wow"><span aria-hidden="true">←</span> Back to kotsw.com</a>
+</div>
 
 <header class="hero">
   <div>
@@ -777,7 +792,16 @@ td:first-child{font-weight:700;white-space:nowrap}
     <li><a href="https://www.method.gg/guides/the-venomous-abyss/ulatek-heroic">Method: Ula'tek Heroic</a></li>
     <li><a href="https://www.wowhead.com/guide/midnight/raids/venomous-abyss-ulatek-boss-strategy-abilities#bossinfo-boss-cheat-sheet">Wowhead: Ula'tek boss cheat sheet and abilities</a></li>
   </ul>
-  <a class="totop" href="#top"><span aria-hidden="true">↑</span> Back to top</a>
+  <div class="frow">
+    <div class="fbrand">
+      <picture>
+        <source srcset="/brand/kotsw-crest-venom-light.svg" media="(prefers-color-scheme: light)">
+        <img src="/brand/kotsw-crest-venom-dark.svg" alt="" aria-hidden="true" height="32">
+      </picture>
+      <p>© 2026 Knights of the Silicon Wafer</p>
+    </div>
+    <a class="up" href="#top">Back to top ↑</a>
+  </div>
 </footer>
 
 </div>
@@ -1475,7 +1499,7 @@ window.addEventListener('hashchange',fromHash);
 })();
 
 (function(){
-  var b=document.querySelector('.totop'); if(!b) return;
+  var b=document.querySelector('.foot a.up'); if(!b) return;
   b.addEventListener('click',function(e){
     e.preventDefault();
     var r=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -182,6 +182,7 @@ var sInp,sMsg;
   var row=htmlEl('div','rs-row',null,shareBox);
   var bc=htmlEl('button',null,'Copy share link',row); bc.type='button';
   var bi=htmlEl('button',null,'Import link or code',row); bi.type='button';
+  var br=htmlEl('button',null,'Reset roster',row); br.type='button'; var brT=0;
   sInp=htmlEl('input',null,null,shareBox); sInp.type='text'; sInp.setAttribute('aria-label','Share link or code'); sInp.placeholder='Share link or code appears here. Paste one here to import.'; sInp.autocomplete='off';
   sMsg=htmlEl('p','rs-msg',null,shareBox); sMsg.setAttribute('role','status');
   bc.addEventListener('click',function(){
@@ -196,6 +197,18 @@ var sInp,sMsg;
     if(!editable()){ sMsg.textContent='The raid leader controls the roster here, so it cannot be replaced.'; return; }
     R=d; renderRoster(); refresh(); save(); sMsg.textContent='Roster imported.';
   });
+  br.addEventListener('click',function(){
+    if(!editable()){ sMsg.textContent='The raid leader controls the roster here, so it cannot be reset.'; return; }
+    if(!brT){
+      br.textContent='Tap again to confirm'; br.classList.add('arm');
+      brT=setTimeout(function(){ brT=0; br.textContent='Reset roster'; br.classList.remove('arm'); },4000);
+      return;
+    }
+    clearTimeout(brT); brT=0; br.textContent='Reset roster'; br.classList.remove('arm');
+    R=defaults(); renderRoster(); refresh(); save(); sInp.value='';
+    try{ if(/^#r=/.test(location.hash||'')) history.replaceState(null,'',location.href.split('#')[0]); }catch(e){}
+    sMsg.textContent='Roster reset to the default raid.';
+  });
 })();
 function fromHash(){
   var m=/^#r=([A-Za-z0-9_-]+)$/.exec(location.hash||''); if(!m) return false;
@@ -207,7 +220,7 @@ window.addEventListener('hashchange',fromHash);
 })();
 
 (function(){
-  var b=document.querySelector('.totop'); if(!b) return;
+  var b=document.querySelector('.foot a.up'); if(!b) return;
   b.addEventListener('click',function(e){
     e.preventDefault();
     var r=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -184,10 +184,17 @@ tr:last-child td{border-bottom:0}
 td:first-child{font-weight:700;white-space:nowrap}
 .foot{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:14px}
 .foot li{margin-top:4px}
-.back{display:inline-flex;align-items:center;gap:8px;margin-top:max(12px,env(safe-area-inset-top,0px));font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:16px;border-bottom:1px solid var(--line)}
+.topbar .logo{display:inline-flex}
+.topbar .logo img{height:44px;width:auto;display:block}
+.back{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
 .back:hover,.back:focus-visible{color:var(--venom);border-color:var(--venom)}
-.totop{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--fg);text-decoration:none;padding:12px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer}
-.totop:hover,.totop:focus-visible{color:var(--venom);border-color:var(--venom)}
+.foot .frow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding-top:24px;padding-bottom:max(32px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.foot .fbrand{display:flex;align-items:center;gap:14px}
+.foot .fbrand img{height:32px;width:auto;display:block}
+.foot .fbrand p{margin:0}
+.foot a.up{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:0;cursor:pointer}
+.foot a.up:hover,.foot a.up:focus-visible{color:var(--fg)}
 
 @keyframes shimmer{0%,100%{opacity:.65}50%{opacity:1}}
 @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
