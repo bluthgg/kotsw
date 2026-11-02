@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Knights of the Silicon Wafer</title>
+<meta name="description" content="Programming notes, World of Warcraft raid guides, pinball, and other things worth writing down.">
+<meta property="og:title" content="Knights of the Silicon Wafer">
+<meta property="og:description" content="Programming notes, World of Warcraft raid guides, pinball, and other things worth writing down.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.kotsw.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* kotsw.com home page. Dark first, flat, thin borders. Slate and copper to match the logo.
+   Each section has its own accent (--accent). The raid guides keep their own venom-green look. */
+:root{
+  --bg:#0b1016; --surface:#111922; --surface2:#1c2833; --line:#26333f;
+  --fg:#e9eef2; --muted:#93a2b0;
+  --copper:#e09a63; --venom:#86cf74; --blue:#6fb7e9; --violet:#b58be8;
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --ui:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f5f7f8; --surface:#ffffff; --surface2:#d9e0e6; --line:#cbd5dd;
+    --fg:#0e1319; --muted:#4c5b69;
+    --copper:#a65a26; --venom:#3b7f2c; --blue:#1a6fa8; --violet:#7a46b8;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f5f7f8; --surface:#ffffff; --surface2:#d9e0e6; --line:#cbd5dd;
+  --fg:#0e1319; --muted:#4c5b69;
+  --copper:#a65a26; --venom:#3b7f2c; --blue:#1a6fa8; --violet:#7a46b8;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--ui);-webkit-text-size-adjust:100%}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--surface);color:var(--fg);padding:8px 12px;border:1px solid var(--line);border-radius:8px;z-index:20}
+.skip:focus{left:16px}
+
+.eyebrow{font:700 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+
+/* Header */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:16px;padding-bottom:16px}
+.logo{display:block;line-height:0}
+.logo img{height:48px;width:auto}
+.nav{display:flex;flex-wrap:wrap;gap:4px 22px}
+.nav a{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 0;border-bottom:2px solid transparent}
+.nav a:hover{color:var(--fg);border-bottom-color:var(--copper)}
+
+/* Hero */
+.hero .wrap{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;padding-top:72px;padding-bottom:64px}
+.hero h1{font:800 clamp(52px,10vw,104px)/.9 var(--display);text-transform:uppercase;margin:14px 0 22px;text-wrap:balance}
+.hero h1 span{display:block}
+.hero .lead{max-width:52ch;color:var(--muted);font-size:18px;margin:0 0 28px}
+.hero .crest{height:240px;width:auto}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;font:600 14px/1 var(--ui);text-decoration:none;padding:13px 18px;border-radius:10px;border:1px solid var(--line);background:var(--surface);transition:border-color .15s,background .15s}
+.btn:hover{border-color:var(--copper)}
+.btn.primary{border-color:var(--copper);background:color-mix(in srgb,var(--copper) 16%,transparent)}
+.btn.primary:hover{background:color-mix(in srgb,var(--copper) 26%,transparent)}
+.c-code{color:var(--copper)} .c-wow{color:var(--venom)} .c-pin{color:var(--blue)}
+
+/* Latest feed */
+.latest{padding-top:48px;padding-bottom:8px}
+.latest h2,.sec h2{font:800 clamp(32px,5vw,48px)/1 var(--display);text-transform:uppercase;margin:8px 0 0;text-wrap:balance}
+.feed{list-style:none;margin:24px 0 0;padding:0;border-top:1px solid var(--line)}
+.feed a{display:grid;grid-template-columns:110px 1fr auto;gap:8px 20px;align-items:baseline;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none}
+.feed a:hover .ft{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--accent)}
+.feed time{font:700 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.feed .ft{font-weight:600}
+.feed .fs{display:block;color:var(--muted);font-size:15px;font-weight:400;margin-top:2px}
+.feed-empty{color:var(--muted);margin:24px 0 0}
+
+/* Chips */
+.chip{display:inline-block;font:700 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:6px 9px;border-radius:6px;white-space:nowrap;
+  color:var(--accent,var(--muted));background:color-mix(in srgb,var(--accent,var(--muted)) 16%,transparent)}
+.chip.plain{--accent:var(--muted)}
+
+/* Sections */
+.sec{padding-top:56px;padding-bottom:8px}
+.sec header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px;margin-bottom:24px}
+.sec .num{color:var(--accent)}
+.sec .blurb{max-width:48ch;color:var(--muted);margin:0}
+.sub{font:700 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+.card{position:relative;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:12px;padding:20px;transition:border-color .15s}
+.card h3{font:800 28px/1 var(--display);text-transform:uppercase;margin:0}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:auto;padding-top:6px}
+.card .go{font-weight:600;font-size:14px;color:var(--fg);text-decoration:none}
+.card .go::after{content:"";position:absolute;inset:0}
+.card .go span{color:var(--accent)}
+a.card-link:hover{border-color:var(--accent)}
+.card.soon{border-style:dashed;border-top-style:dashed;background:transparent}
+.card.soon h3{color:var(--muted)}
+
+.s-wow{--accent:var(--venom)} .s-code{--accent:var(--copper)} .s-pin{--accent:var(--blue)} .s-else{--accent:var(--violet)}
+.note{color:var(--muted);font-size:14px;margin:16px 0 0;max-width:70ch}
+
+/* Footer */
+.foot{margin-top:72px;border-top:1px solid var(--line)}
+.foot .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:28px;padding-bottom:max(36px,env(safe-area-inset-bottom))}
+.foot .brand{display:flex;align-items:center;gap:14px}
+.foot img{height:32px;width:auto}
+.foot p{margin:0;color:var(--muted);font-size:14px}
+.foot a.up{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.foot a.up:hover{color:var(--fg)}
+
+@media (max-width:760px){
+  .hero .wrap{grid-template-columns:1fr;padding-top:44px;padding-bottom:44px}
+  .hero .crest{display:none}
+  .hero .lead{font-size:17px}
+  .logo img{height:40px}
+  .sec header{display:block}
+  .sec .blurb{margin-top:8px}
+  .feed a{grid-template-columns:1fr auto}
+  .feed time{grid-column:1 / -1}
+  .feed .chip{grid-row:2;grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/">
+      <picture>
+        <source srcset="brand/kotsw-lockup-light.svg" media="(prefers-color-scheme: light)">
+        <img src="brand/kotsw-lockup-dark.svg" alt="Knights of the Silicon Wafer" height="48">
+      </picture>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#wow">World of Warcraft</a>
+      <a href="#code">Programming</a>
+      <a href="#pinball">Pinball</a>
+      <a href="#else">Everything else</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">kotsw.com · A personal site</p>
+        <h1><span class="c-code">Code.</span><span class="c-wow">Raids.</span><span class="c-pin">Pinball.</span></h1>
+        <p class="lead">Programming notes, World of Warcraft raid guides, pinball, and whatever else is worth writing down.</p>
+        <div class="cta">
+          <a class="btn primary" href="venomous_abyss_guides/ulatek-heroic-guide.html">Open the Ula'tek guide</a>
+          <a class="btn" href="#wow">Browse sections</a>
+        </div>
+      </div>
+      <picture>
+        <source srcset="brand/kotsw-crest-light.svg" media="(prefers-color-scheme: light)">
+        <img class="crest" src="brand/kotsw-crest-dark.svg" alt="" aria-hidden="true" height="240">
+      </picture>
+    </div>
+  </section>
+
+  <section class="latest wrap" aria-labelledby="latest-h">
+    <p class="eyebrow">Newest first</p>
+    <h2 id="latest-h">Latest</h2>
+    <ul class="feed" id="feed"></ul>
+    <p class="feed-empty" id="feed-empty" hidden>Nothing posted yet.</p>
+  </section>
+
+  <section class="sec s-wow wrap" id="wow" aria-labelledby="wow-h">
+    <header>
+      <div>
+        <p class="eyebrow"><span class="num">01</span> · Gaming</p>
+        <h2 id="wow-h">World of Warcraft</h2>
+      </div>
+      <p class="blurb">Raid guides for guildmates. Pick your group, see where to stand, and follow the steps.</p>
+    </header>
+    <p class="sub" style="margin-top:0">The Venomous Abyss</p>
+    <div class="cards">
+      <article class="card">
+        <p class="eyebrow">Boss 8</p>
+        <h3>Ula'tek</h3>
+        <p>Animated diagrams for every phase, with calls for the Odds and Evens groups and a by-role cheat sheet.</p>
+        <div class="row">
+          <span class="chip" style="--accent:var(--venom)">Heroic</span>
+          <a class="go" href="venomous_abyss_guides/ulatek-heroic-guide.html">Open guide <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      <article class="card soon">
+        <p class="eyebrow">More bosses</p>
+        <h3>Next guide</h3>
+        <p>New boss guides will show up here as they are written.</p>
+        <div class="row"><span class="chip plain">Soon</span></div>
+      </article>
+    </div>
+    <p class="note">The Odds and Evens calls are ours. Mechanics come from Wowhead, Mythic Trap, and Method.</p>
+  </section>
+
+  <section class="sec s-code wrap" id="code" aria-labelledby="code-h">
+    <header>
+      <div>
+        <p class="eyebrow"><span class="num">02</span> · Build things</p>
+        <h2 id="code-h">Programming</h2>
+      </div>
+      <p class="blurb">Guides and notes on code, tools, and how things work under the hood.</p>
+    </header>
+    <div class="cards">
+      <article class="card soon">
+        <p class="eyebrow">Guides</p>
+        <h3>First guide</h3>
+        <p>Programming guides will be listed here.</p>
+        <div class="row"><span class="chip plain">Soon</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec s-pin wrap" id="pinball" aria-labelledby="pin-h">
+    <header>
+      <div>
+        <p class="eyebrow"><span class="num">03</span> · Silverball</p>
+        <h2 id="pin-h">Pinball</h2>
+      </div>
+      <p class="blurb">Machines, rules, and strategy.</p>
+    </header>
+    <div class="cards">
+      <article class="card soon">
+        <p class="eyebrow">Machines</p>
+        <h3>First entry</h3>
+        <p>Pinball content will be listed here.</p>
+        <div class="row"><span class="chip plain">Soon</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec s-else wrap" id="else" aria-labelledby="else-h">
+    <header>
+      <div>
+        <p class="eyebrow"><span class="num">04</span> · Odds and ends</p>
+        <h2 id="else-h">Everything else</h2>
+      </div>
+      <p class="blurb">Anything interesting that does not fit above.</p>
+    </header>
+    <div class="cards">
+      <article class="card soon">
+        <p class="eyebrow">Misc</p>
+        <h3>Something else</h3>
+        <p>Other topics will be listed here.</p>
+        <div class="row"><span class="chip plain">Soon</span></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="brand">
+      <picture>
+        <source srcset="brand/kotsw-crest-light.svg" media="(prefers-color-scheme: light)">
+        <img src="brand/kotsw-crest-dark.svg" alt="" aria-hidden="true" height="32">
+      </picture>
+      <p>© 2026 Knights of the Silicon Wafer</p>
+    </div>
+    <a class="up" href="#main">Back to top ↑</a>
+  </div>
+</footer>
+
+<script>
+/* LATEST FEED
+   To add something to the Latest list, add one line to POSTS and save.
+   date: YYYY-MM-DD. section: wow, code, pinball, or else. href: path from the site root.
+   The list sorts itself, newest first. */
+var POSTS = [
+  { date:"2026-11-02", section:"wow", title:"Ula'tek Heroic Guide", summary:"The Venomous Abyss, Boss 8. Animated phase diagrams and calls for Odds and Evens.", href:"/venomous_abyss_guides/ulatek-heroic-guide.html" }
+];
+
+(function(){
+  var SECTIONS = {
+    wow:    { label:"World of Warcraft", accent:"var(--venom)" },
+    code:   { label:"Programming",       accent:"var(--copper)" },
+    pinball:{ label:"Pinball",           accent:"var(--blue)" },
+    "else": { label:"Other",             accent:"var(--violet)" }
+  };
+  var list = document.getElementById("feed");
+  var empty = document.getElementById("feed-empty");
+  var posts = POSTS.slice().sort(function(a,b){ return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+  if(!posts.length){ empty.hidden = false; return; }
+  posts.forEach(function(p){
+    var s = SECTIONS[p.section] || SECTIONS["else"];
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = p.href;
+    a.style.setProperty("--accent", s.accent);
+
+    var t = document.createElement("time");
+    t.dateTime = p.date;
+    t.textContent = new Date(p.date + "T12:00:00Z").toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric", timeZone:"UTC" });
+
+    var body = document.createElement("span");
+    var ft = document.createElement("span");
+    ft.className = "ft"; ft.textContent = p.title;
+    body.appendChild(ft);
+    if(p.summary){
+      var fs = document.createElement("span");
+      fs.className = "fs"; fs.textContent = p.summary;
+      body.appendChild(fs);
+    }
+
+    var chip = document.createElement("span");
+    chip.className = "chip"; chip.textContent = s.label;
+
+    a.appendChild(t); a.appendChild(body); a.appendChild(chip);
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+})();
+</script>
+</body>
+</html>

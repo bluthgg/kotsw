@@ -153,15 +153,18 @@ The roster is saved in the visitor's own browser. The "Copy share link" button p
 - Make sure Play keeps going after clicking a step.
 - Spell-check names and Wowhead links.
 
-## 11. Main index.html (starting point)
+## 11. Main index.html
 
-The home page should use the same look, but simpler:
-- Same tokens, fonts, and dark-first theme.
-- Site header: the logo lockup from section 12, linked to `/`.
-- Hero: site name in the display font, short intro.
-- A list or grid of guide cards. Each card: mono eyebrow (raid and boss number), display title, one-line summary, difficulty chip, "Open guide" link.
-- Group by raid (for example "The Venomous Abyss"). Add new bosses as new cards.
-- Keep the footer and sources pattern.
+The home page shares the guides' structure rules (dark first, flat, thin borders, same fonts, same tokens approach) but has its own look so it does not read as a raid guide.
+
+- **Palette:** slate and copper, taken from the logo. Dark: `--bg #0b1016`, `--surface #111922`, `--surface2 #1c2833`, `--line #26333f`, `--fg #e9eef2`, `--muted #93a2b0`. Light: `--bg #f5f7f8`, `--surface #fff`, `--line #cbd5dd`, `--fg #0e1319`, `--muted #4c5b69`. Light copper text is darkened to `#a65a26` so it stays readable.
+- **Section accents:** World of Warcraft `--venom`, Programming `--copper`, Pinball `--blue`, Everything else `--violet`. A card's top border, number, chip and link arrow use its section accent. These colors do not carry the Odds, Evens, or role meanings from section 2.
+- **Fonts:** same three Google fonts as the guides. The hero headline is the display font, one word per line.
+- **Logo:** copper files from `public/brand/`. Lockup (48px, 40px on phones) in the header. Crest in the hero (hidden on phones, the header already has the logo) and small in the footer.
+- **Structure:** header with section links, hero, Latest feed, one block per section with cards, footer.
+- **Latest feed:** driven by the `POSTS` array at the bottom of `index.html`. One line per post.
+- **Cards:** mono eyebrow, display title, one-line summary, chip, and an "Open" link. The whole card is clickable. A dashed card with a "Soon" chip holds the place of content that does not exist yet.
+- **Adding content:** see "Home page" in `CLAUDE.md`.
 
 ## 12. Logo and favicon
 

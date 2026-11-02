@@ -9,7 +9,7 @@ The repo root is `kotsw/`. **Only the `public/` folder is published.** Cloudflar
 ```
 kotsw/                         (repo root, GitHub)
 ├─ public/                     <- the website. Cloudflare publishes only this folder.
-│  ├─ index.html               (main page, not built yet)
+│  ├─ index.html               home page: logo header, hero, Latest feed, section cards (WoW, Programming, Pinball, Everything else)
 │  ├─ favicon.svg, favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png   (favicons: the die-grid K)
 │  ├─ brand/                   logo files: lockup and crest, SVG and PNG, light and dark, copper and venom-green accent
 │  └─ venomous_abyss_guides/
@@ -32,7 +32,24 @@ On Sam's computer the repo root is `C:\Users\sambo\Desktop\kotsw`, the website i
 5. Odds and Evens are the two raid groups in our calls. Odds is amber, Evens is blue. The calls are ours; mechanics come from Wowhead, Mythic Trap, and Method.
 6. Do not delete or overwrite a published guide without asking. Make a new file or ask first.
 7. Test before saying a guide is done: step through every diagram (clicking a step must show the same picture as playing to it), check light and dark, and check phone width.
-8. Logo and favicon: follow `STYLE-GUIDE.md` section 12. Every page needs the three favicon `<link>` tags in `<head>`. Use the logo files in `public/brand/` as they are. Do not redraw, recolor, or stretch them. Pages in the venom-green look use the venom-green accent in place of copper, as section 12 describes. On those pages use the `kotsw-*-venom-*` files in `public/brand/`. Everywhere else use the copper files (no `venom` in the name).
+8. Logo and favicon: follow `STYLE-GUIDE.md` section 12. Every page needs the three favicon `<link>` tags in `<head>`. Use the logo files in `public/brand/` as they are. Do not redraw, recolor, or stretch them. Pages in the venom-green look use the venom-green accent in place of copper, as section 12 describes. On those pages use the `kotsw-*-venom-*` files in `public/brand/`. Everywhere else, including the home page, use the copper files (no `venom` in the name).
+
+## Home page (`public/index.html`)
+
+- One self-contained file, same rules as a guide (section 9 of the style guide). Dark first, light for light systems.
+- The home page is **not** in the venom-green look. It uses a slate and copper look with the copper logo files (no `venom` in the name). Each section has its own accent: World of Warcraft venom green, Programming copper, Pinball blue, Everything else violet. The guides keep their own look.
+- **Latest feed:** the `POSTS` array in the script at the bottom of `index.html`. Add one line per new guide or post (`date`, `section`, `title`, `summary`, `href`). It sorts newest first by itself.
+- **Section cards:** each section is hand-written HTML. To add a guide, copy the Ula'tek `<article class="card">`, edit it, and put it before the dashed "Soon" card. Delete a "Soon" card once the section has real content.
+- When a new page goes live, add it to both places: a card in its section and a line in `POSTS`.
+
+## Publishing workflow
+
+1. Save the new or changed file inside `public/` (never source files or drafts there).
+2. Commit and push to `main` on GitHub (`git@github.com:bluthgg/kotsw.git`).
+3. Cloudflare Pages picks up the push and deploys `public/`. No build step. A deploy usually takes a minute or two.
+4. Check the live page at `kotsw.com`. Favicons are cached hard, so use a private window.
+
+To preview locally before pushing, run `python -m http.server 8000` inside `public/` and open `http://localhost:8000`. Root paths like `/brand/...` only work through a server, not by double-clicking the file.
 
 ## Writing style
 
