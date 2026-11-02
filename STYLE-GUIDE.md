@@ -136,6 +136,7 @@ A finished guide for kotsw.com is **one standalone `.html` file** with:
 - `[hidden]{display:none!important}` and `img{max-width:100%}`.
 - All CSS and JS inline. Only Google Fonts is loaded from outside.
 - Must work at about 400px wide with no sideways page scroll.
+- The three favicon `<link>` tags from section 12 in the `<head>`.
 
 Publish folder: guides go in `public/venomous_abyss_guides/` (the website root is `public/`).
 
@@ -156,7 +157,101 @@ The roster is saved in the visitor's own browser. The "Copy share link" button p
 
 The home page should use the same look, but simpler:
 - Same tokens, fonts, and dark-first theme.
+- Site header: the logo lockup from section 12, linked to `/`.
 - Hero: site name in the display font, short intro.
 - A list or grid of guide cards. Each card: mono eyebrow (raid and boss number), display title, one-line summary, difficulty chip, "Open guide" link.
 - Group by raid (for example "The Venomous Abyss"). Add new bosses as new cards.
 - Keep the footer and sources pattern.
+
+## 12. Logo and favicon
+
+The mark is a heater shield holding a silicon wafer (a circle with one flat edge, cut into square dies), with a sword down the middle. The lockup puts the shield on the left of two lines of text: "KNIGHTS OF THE" in small mono caps over "SILICON WAFER" in heavy condensed caps. The top of the shield lines up with the top of the K. The point of the shield sits on the baseline of SILICON WAFER. Keep that alignment if the lockup is ever rebuilt.
+
+### Files
+
+All of these are published.
+
+| File | Folder | Use |
+|---|---|---|
+| `kotsw-lockup-dark.svg` and `.png` | `public/brand/` | Full logo, for dark backgrounds |
+| `kotsw-lockup-light.svg` and `.png` | `public/brand/` | Full logo, for light backgrounds |
+| `kotsw-crest-dark.svg` and `.png` | `public/brand/` | Shield only, for dark backgrounds |
+| `kotsw-crest-light.svg` and `.png` | `public/brand/` | Shield only, for light backgrounds |
+| `kotsw-lockup-venom-dark.svg` and `.png` | `public/brand/` | Full logo with the venom-green accent, for dark venom-green pages |
+| `kotsw-lockup-venom-light.svg` and `.png` | `public/brand/` | Full logo with the venom-green accent, for light venom-green pages |
+| `kotsw-crest-venom-dark.svg` and `.png` | `public/brand/` | Shield only with the venom-green accent, for dark venom-green pages |
+| `kotsw-crest-venom-light.svg` and `.png` | `public/brand/` | Shield only with the venom-green accent, for light venom-green pages |
+| `favicon.svg`, `favicon.ico` | `public/` | Browser tab icon (the die-grid K) |
+| `apple-touch-icon.png` | `public/` | iPhone and iPad home screen icon (180px) |
+| `icon-192.png`, `icon-512.png` | `public/` | Saved for a web app manifest. Not linked yet. |
+
+"Dark" and "light" name the background the file is made for. The dark file has light lines and text. The light file has dark lines and text. Files without `venom` in the name have the copper accent. Files with `venom` in the name have the venom-green accent.
+
+### Using the logo
+
+- Use the SVG on web pages. Use the PNG only where SVG is not accepted (social previews, email, documents). Lockup PNGs are about 2100px wide. Crest PNGs are about 420px wide.
+- The page theme picks the file. The site is dark first, so the dark file is the default and the light file shows for light systems:
+
+```html
+<a href="/">
+  <picture>
+    <source srcset="/brand/kotsw-lockup-light.svg" media="(prefers-color-scheme: light)">
+    <img src="/brand/kotsw-lockup-dark.svg" alt="Knights of the Silicon Wafer" height="48">
+  </picture>
+</a>
+```
+
+  If a manual theme switch is added, swap the file with the same switch.
+- Set the height, never stretch. The header lockup is about 48px tall.
+- Minimum sizes: lockup 40px tall, crest 24px tall. Smaller than that, use the favicon K.
+- Clear space: at least a quarter of the logo's height on every side.
+- Do not recolor, outline, rotate, add shadows or gradients, or place it over busy images. This matches the flat look in section 1.
+- The text in the logo is already converted to shapes. Do not load Barlow Condensed or IBM Plex Mono for it.
+
+### Logo colors
+
+These belong to the logo only. They are not page tokens.
+
+| Part | On dark | On light |
+|---|---|---|
+| Ink (outline, sword blade, text) | `#E9EEF2` | `#0E1319` |
+| Wafer fill | `#1C2833` | `#D9E0E6` |
+| Shield fill | `#0E1319` | `#F5F7F8` |
+| Copper (sword guard and pommel) | `#E09A63` | `#C2733A` |
+
+Copper is for the logo only. Do not use it in the page UI. Page colors still come from the tokens in section 2.
+
+### Logo accent on venom-green pages
+
+Pages in the venom-green and teal-black look (the raid guides) swap the logo's copper for the page's venom green. Everything else in the logo stays the same. Pages that do not use venom green keep copper.
+
+| Part | On dark | On light |
+|---|---|---|
+| Accent (sword guard and pommel), venom-green pages | `#86cf74` | `#3b7f2c` |
+
+These are the `--venom` values from section 2. The shield fill on dark (`#0E1319`) is close enough to the page `--bg` (`#0c1416`) that it needs no change.
+
+On these pages use the files with `venom` in the name:
+
+```html
+<a href="/">
+  <picture>
+    <source srcset="/brand/kotsw-lockup-venom-light.svg" media="(prefers-color-scheme: light)">
+    <img src="/brand/kotsw-lockup-venom-dark.svg" alt="Knights of the Silicon Wafer" height="48">
+  </picture>
+</a>
+```
+
+The favicon stays copper everywhere, because it is one fixed file.
+
+### Favicon
+
+The K is built from 13 square dies in light ink plus one copper die at the joint. It sits on a rounded dark tile so it reads on both light and dark browser tabs. Every page needs these three tags in `<head>`. The paths start at the site root, so they work from any folder:
+
+```html
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+```
+
+Browsers cache favicons hard. Check a change in a private window.

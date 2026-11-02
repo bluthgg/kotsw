@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-104.5 -116.5 209.0 267.5" width="418" height="535" role="img" aria-label="Knights of the Silicon Wafer crest">
+<path d="M-100 -112H100V22C100 82 56 120 0 146C-56 120 -100 82 -100 22Z" fill="#0E1319" stroke="#E9EEF2" stroke-width="9" stroke-linejoin="miter"/>
+<g transform="translate(0 -14) scale(.66)">
+<path d="M-47.5 88A100 100 0 1 1 47.5 88Z" fill="#1C2833" stroke="#E9EEF2" stroke-width="5"/>
+<path d="M-50 -86.6V86.6M0 -100V88M50 -86.6V86.6M-86.6 -50H86.6M-100 0H100M-86.6 50H86.6" fill="none" stroke="#E9EEF2" stroke-width="3" opacity=".5"/>
+</g>
+<path d="M0 -94L11 -70V50H-11V-70Z" fill="#0E1319" stroke="#0E1319" stroke-width="5" stroke-linejoin="round"/>
+<path d="M0 -94L11 -70V50H-11V-70Z" fill="#E9EEF2"/>
+<rect x="-34" y="50" width="68" height="12" fill="#0E1319" stroke="#0E1319" stroke-width="5" stroke-linejoin="round"/>
+<rect x="-34" y="50" width="68" height="12" fill="#86CF74"/>
+<rect x="-4.5" y="62" width="9" height="32" fill="#0E1319" stroke="#0E1319" stroke-width="5" stroke-linejoin="round"/>
+<rect x="-4.5" y="62" width="9" height="32" fill="#E9EEF2"/>
+<circle cx="0" cy="100" r="8.5" fill="#0E1319" stroke="#0E1319" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="0" cy="100" r="8.5" fill="#86CF74"/>
+</svg>

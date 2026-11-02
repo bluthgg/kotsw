@@ -10,10 +10,12 @@ The repo root is `kotsw/`. **Only the `public/` folder is published.** Cloudflar
 kotsw/                         (repo root, GitHub)
 ├─ public/                     <- the website. Cloudflare publishes only this folder.
 │  ├─ index.html               (main page, not built yet)
+│  ├─ favicon.svg, favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png   (favicons: the die-grid K)
+│  ├─ brand/                   logo files: lockup and crest, SVG and PNG, light and dark, copper and venom-green accent
 │  └─ venomous_abyss_guides/
 │     └─ ulatek-heroic-guide.html   Heroic Ula'tek (Boss 8)
 ├─ _source/ulatek-engine/      source parts, build.py and tests for the Ula'tek guide (reusable engine). Read its README.md before building a new guide.
-├─ STYLE-GUIDE.md              visual and writing rules for every guide and the main index. Read it first.
+├─ STYLE-GUIDE.md              visual and writing rules for every guide and the main index, plus the logo and favicon rules (section 12). Read it first.
 └─ CLAUDE.md                   this file
 ```
 
@@ -30,6 +32,7 @@ On Sam's computer the repo root is `C:\Users\sambo\Desktop\kotsw`, the website i
 5. Odds and Evens are the two raid groups in our calls. Odds is amber, Evens is blue. The calls are ours; mechanics come from Wowhead, Mythic Trap, and Method.
 6. Do not delete or overwrite a published guide without asking. Make a new file or ask first.
 7. Test before saying a guide is done: step through every diagram (clicking a step must show the same picture as playing to it), check light and dark, and check phone width.
+8. Logo and favicon: follow `STYLE-GUIDE.md` section 12. Every page needs the three favicon `<link>` tags in `<head>`. Use the logo files in `public/brand/` as they are. Do not redraw, recolor, or stretch them. Pages in the venom-green look use the venom-green accent in place of copper, as section 12 describes. On those pages use the `kotsw-*-venom-*` files in `public/brand/`. Everywhere else use the copper files (no `venom` in the name).
 
 ## Writing style
 
