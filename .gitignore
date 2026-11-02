@@ -1,0 +1,46 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+npm-debug.log*
+
+# Node (only needed if you run the guide tests)
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Build output: rebuilt from _source/ulatek-engine/parts with build.py
+_source/ulatek-engine/ulatek-heroic-guide.html
+
+# Test screenshots
+_source/**/*.png
+_source/**/*.jpg
+*.png.tmp
+
+# Secrets and local settings, never commit these
+.env
+.env.*
+*.pem
+*.key
+.claude/settings.local.json
+
+# Files marked for deletion
+_to_delete/
