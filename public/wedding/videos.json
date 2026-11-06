@@ -1,3 +1,10 @@
 {
-  "videos": []
+  "videos": [
+    {
+      "id": "video-0001",
+      "youtube": "https://youtu.be/Ub_7C_Tm3Ck",
+      "title": "Our Wedding Video",
+      "note": "Filmed by our videographers."
+    }
+  ]
 }
