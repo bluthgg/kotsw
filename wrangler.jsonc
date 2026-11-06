@@ -2,9 +2,14 @@
   // Cloudflare Workers static assets config for kotsw.com.
   // "name" must match the project name shown in the Cloudflare dashboard.
   "name": "kotsw",
+  // Small Worker that password-protects /wedding. Nothing else goes through it.
+  "main": "./src/worker.js",
   "compatibility_date": "2026-11-01",
   "assets": {
     // Only this folder is published. Everything else in the repo stays private to GitHub.
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS",
+    // Only these paths run the Worker first. All other pages are served as plain files.
+    "run_worker_first": ["/wedding", "/wedding/*"]
   }
 }

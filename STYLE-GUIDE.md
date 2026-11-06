@@ -266,3 +266,13 @@ The K is built from 13 square dies in light ink plus one copper die at the joint
 ```
 
 Browsers cache favicons hard. Check a change in a private window.
+
+## 13. Wedding gallery (private page)
+
+`public/wedding/index.html` is the one page that is not a single self-contained file. It loads `photos.json` and the photos next to it, so it only works through a server (or `npx wrangler dev`).
+
+- **Look:** the home page's slate and copper tokens, with copper as the accent. Copper logo files, back link to `/#else`, footer with the crest and "Back to top". It also has a "Lock gallery" button in the footer.
+- **Grid:** justified rows, set by script. Every row fills the width and no photo is cropped. Gap 6px, 6px corners. Target row height is 120px on phones, 180px mid-size and 220px on desktop.
+- **Heart (favorite):** copper when on. It shows on hover on desktop and always on touch screens. Favorites are saved in the browser (`kotsw-wedding-favs-v1`).
+- **Viewer:** a full-screen dark layer with the same dark colors in light and dark mode (`--veil`). Arrow keys, Esc, F to favorite, swipe on phones. Each photo has a link of the form `/wedding/#<photo id>`.
+- **Access:** the page and photos are behind `src/worker.js`. See `CLAUDE.md` for the password secret.

@@ -44,3 +44,9 @@ _source/**/*.jpg
 
 # Files marked for deletion
 _to_delete/
+
+# Photographer zip (originals stay local; the site uses public/wedding)
+_photos_originals/
+
+# Local Cloudflare secrets (the wedding password), never commit
+.dev.vars

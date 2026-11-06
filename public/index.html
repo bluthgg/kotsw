@@ -259,11 +259,14 @@ a.card-link:hover{border-color:var(--accent)}
       <p class="blurb">Anything interesting that does not fit above.</p>
     </header>
     <div class="cards">
-      <article class="card soon">
-        <p class="eyebrow">Misc</p>
-        <h3>Something else</h3>
-        <p>Other topics will be listed here.</p>
-        <div class="row"><span class="chip plain">Soon</span></div>
+      <article class="card">
+        <p class="eyebrow">Photos</p>
+        <h3>Sam and Mel's Wedding</h3>
+        <p>The photos from our day, in seven sections. Save your favorites. You need the password we shared.</p>
+        <div class="row">
+          <span class="chip" style="--accent:var(--violet)">Password</span>
+          <a class="go" href="/wedding/">Open gallery <span aria-hidden="true">→</span></a>
+        </div>
       </article>
     </div>
   </section>
@@ -288,6 +291,7 @@ a.card-link:hover{border-color:var(--accent)}
    date: YYYY-MM-DD. section: wow, code, pinball, or else. href: path from the site root.
    The list sorts itself, newest first. */
 var POSTS = [
+  { date:"2026-11-05", section:"else", title:"Sam and Mel's Wedding", summary:"Wedding photos in seven sections, with favorites. Password needed.", href:"/wedding/" },
   { date:"2026-11-02", section:"wow", title:"Ula'tek Heroic Guide", summary:"The Venomous Abyss, Boss 8. Animated phase diagrams and calls for Odds and Evens.", href:"/venomous_abyss_guides/ulatek-heroic-guide.html" }
 ];
 

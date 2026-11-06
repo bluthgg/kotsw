@@ -12,9 +12,17 @@ kotsw/                         (repo root, GitHub)
 │  ├─ index.html               home page: logo header, hero, Latest feed, section cards (WoW, Programming, Pinball, Everything else)
 │  ├─ favicon.svg, favicon.ico, apple-touch-icon.png, icon-192.png, icon-512.png   (favicons: the die-grid K)
 │  ├─ brand/                   logo files: lockup and crest, SVG and PNG, light and dark, copper and venom-green accent
-│  └─ venomous_abyss_guides/
-│     └─ ulatek-heroic-guide.html   Heroic Ula'tek (Boss 8)
+│  ├─ venomous_abyss_guides/
+│  │  └─ ulatek-heroic-guide.html   Heroic Ula'tek (Boss 8)
+│  └─ wedding/                 Sam and Mel's Wedding photo gallery. PASSWORD PROTECTED by src/worker.js.
+│     ├─ index.html            the gallery page (grid, viewer, favorites kept in the browser)
+│     ├─ photos.json           sections and photos, built by build_photos.py (do not edit by hand)
+│     └─ photos/, thumbs/      full photos and grid thumbnails, built by build_photos.py
+├─ src/worker.js               small Worker that asks for the wedding password. Only /wedding and /wedding/* run through it.
+├─ wrangler.jsonc              Cloudflare Workers config: static assets from public/, plus the Worker above
 ├─ _source/ulatek-engine/      source parts, build.py and tests for the Ula'tek guide (reusable engine). Read its README.md before building a new guide.
+├─ _source/wedding-gallery/    build_photos.py: turns the photographer's zip into public/wedding (run it from the repo root)
+├─ _photos_originals/          the photographer's zip. Local only, ignored by git.
 ├─ STYLE-GUIDE.md              visual and writing rules for every guide and the main index, plus the logo and favicon rules (section 12). Read it first.
 └─ CLAUDE.md                   this file
 ```
@@ -58,7 +66,9 @@ Plain, short sentences for raiders mid-pull. Name the group and the side. No em 
 
 ## Hosting notes
 
-- Cloudflare Pages deploys from GitHub. Build output directory: `public`. No build command.
+- The site is a Cloudflare Workers project with static assets (see `wrangler.jsonc`), deployed from GitHub. Only `public/` is served. Workers builds normally deploy with `npx wrangler deploy`, which also ships `src/worker.js`. Confirm in the dashboard under Settings, Build.
+- **Wedding password:** the secret `WEDDING_PASSWORD` is set in the Cloudflare dashboard (Workers & Pages, kotsw, Settings, Variables and Secrets). It is never in the repo. For local testing put it in `.dev.vars` (ignored by git) and run `npx wrangler dev`. Changing the password signs every guest out. The gate covers the photos too, not just the page.
+- To change the wedding photos: put the new zip in `_photos_originals/`, run `python _source/wedding-gallery/build_photos.py`, then commit `public/wedding`.
 - A page named `index.html` opens at the bare folder address. Guide files are not named `index.html`, so link to them by their full path.
 - The guides keep each visitor's roster in their own browser. There is no server or database.
 - Source code, docs, and the engine live outside `public/`, so they are in GitHub but not on the website. To check what is public, look only inside `public/`.

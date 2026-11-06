@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Sam and Mel's Wedding</title>
+<meta name="description" content="Wedding photos, for family and friends.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Wedding gallery. Same slate and copper look as the home page. Dark first.
+   Photos come from photos.json (built by _source/wedding-gallery/build_photos.py).
+   Favorites are kept in this browser only. */
+:root{
+  --bg:#0b1016; --surface:#111922; --surface2:#1c2833; --line:#26333f;
+  --fg:#e9eef2; --muted:#93a2b0; --copper:#e09a63;
+  --veil:#06090d; --veil-fg:#e9eef2;
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --ui:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f5f7f8; --surface:#ffffff; --surface2:#d9e0e6; --line:#cbd5dd;
+    --fg:#0e1319; --muted:#4c5b69; --copper:#a65a26;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f5f7f8; --surface:#ffffff; --surface2:#d9e0e6; --line:#cbd5dd;
+  --fg:#0e1319; --muted:#4c5b69; --copper:#a65a26;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html.lock{overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--ui);-webkit-text-size-adjust:100%}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;border-radius:4px}
+h1,h2,h3,p,ul,figure{margin:0}
+ul{padding:0;list-style:none}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.eyebrow{font:700 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.topbar{border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:16px}
+.logo{display:inline-flex;line-height:0}
+.logo img{height:44px;width:auto}
+.back{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.back:hover,.back:focus-visible{color:var(--copper);border-color:var(--copper)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;padding-top:56px;padding-bottom:40px}
+.hero h1{font:800 clamp(52px,9vw,104px)/.9 var(--display);text-transform:uppercase;margin:14px 0 20px;text-wrap:balance}
+.lead{max-width:46ch;color:var(--muted);font-size:18px}
+.stats{margin-top:22px;font:700 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.stats b{color:var(--copper)}
+.cover{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface2);aspect-ratio:3/2}
+.cover button{all:unset;display:block;width:100%;height:100%;cursor:zoom-in}
+.cover button:focus-visible{outline:2px solid var(--copper);outline-offset:-4px}
+.cover img{width:100%;height:100%;object-fit:cover}
+
+/* sticky section nav */
+.gnav{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
+.gnav .wrap{display:flex;gap:10px;align-items:center;padding-top:10px;padding-bottom:10px}
+.pills{display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding:2px}
+.pills::-webkit-scrollbar{display:none}
+.pills a{display:flex;align-items:baseline;gap:8px;white-space:nowrap;padding:7px 14px;border:1px solid var(--line);border-radius:99px;text-decoration:none;font:600 14px var(--ui)}
+.pills a small{font:700 11px var(--mono);color:var(--muted)}
+.pills a:hover{border-color:var(--copper)}
+.pills a[aria-current="true"]{border-color:var(--copper);background:color-mix(in srgb,var(--copper) 14%,transparent)}
+.favtog{flex:none;display:inline-flex;align-items:center;gap:8px;font:600 14px var(--ui);padding:7px 14px;border:1px solid var(--line);border-radius:99px;background:var(--surface);cursor:pointer}
+.favtog svg{width:16px;height:16px}
+.favtog:hover{border-color:var(--copper)}
+.favtog[aria-pressed="true"]{border-color:var(--copper);background:color-mix(in srgb,var(--copper) 16%,transparent)}
+.favtog[aria-pressed="true"] svg path,.heart-on svg path{fill:currentColor}
+.favtog span.n{font:700 11px var(--mono);color:var(--copper)}
+svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* sections and grid */
+.gsec{padding-top:44px;scroll-margin-top:56px}
+.gsec header{margin-bottom:16px}
+.gsec h2{font:800 clamp(32px,5vw,48px)/1 var(--display);text-transform:uppercase;margin-top:6px;text-wrap:balance}
+.grid{display:flex;flex-wrap:wrap;gap:6px}
+.ph{position:relative;flex:none;background:var(--surface2);border-radius:6px;overflow:hidden;width:150px;height:100px}
+.ph .open{all:unset;display:block;width:100%;height:100%;cursor:zoom-in}
+.ph .open:focus-visible{outline:2px solid var(--copper);outline-offset:-3px}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .25s}
+.ph:hover img{transform:scale(1.03)}
+.fav{position:absolute;top:6px;right:6px;width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;cursor:pointer;
+  color:var(--veil-fg);background:color-mix(in srgb,var(--veil) 62%,transparent);opacity:0;transition:opacity .15s}
+.fav svg{width:19px;height:19px}
+.ph:hover .fav,.ph:focus-within .fav,.fav[aria-pressed="true"]{opacity:1}
+.fav[aria-pressed="true"]{color:var(--copper)}
+.fav[aria-pressed="true"] svg path{fill:currentColor}
+@media (hover:none){.fav{opacity:.9}}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:28px;margin-top:44px;color:var(--muted)}
+.empty b{color:var(--fg)}
+
+/* viewer */
+.viewer{position:fixed;inset:0;z-index:50;background:var(--veil);color:var(--veil-fg);display:grid;grid-template-rows:auto minmax(0,1fr)}
+.v-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.v-count{font:700 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#93a2b0}
+.v-count b{color:var(--veil-fg)}
+.v-actions{display:flex;gap:6px}
+.vb{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;border:1px solid #26333f;background:transparent;color:var(--veil-fg);cursor:pointer;text-decoration:none;padding:0}
+.vb:hover{border-color:var(--copper)}
+.vb svg{width:20px;height:20px}
+.vb[aria-pressed="true"]{color:var(--copper);border-color:var(--copper)}
+.vb[aria-pressed="true"] svg path{fill:currentColor}
+.vb:disabled{opacity:.3;cursor:default}
+.v-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);padding:0 max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));touch-action:pan-y pinch-zoom}
+.v-stage img{grid-area:1/1;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.v-stage .low{filter:blur(3px)}
+.v-stage .full{opacity:0;transition:opacity .25s}
+.v-stage .full.ready{opacity:1}
+.v-stage.loaded .low{visibility:hidden}
+.v-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:color-mix(in srgb,var(--veil) 70%,transparent)}
+.v-nav.prev{left:max(10px,env(safe-area-inset-left,0px))}
+.v-nav.next{right:max(10px,env(safe-area-inset-right,0px))}
+
+/* footer */
+.foot{margin-top:72px;border-top:1px solid var(--line)}
+.foot .note{color:var(--muted);font-size:14px;padding-top:18px}
+.foot .frow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:20px;padding-top:24px;padding-bottom:max(32px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.foot .fbrand{display:flex;align-items:center;gap:14px}
+.foot .fbrand img{height:32px;width:auto}
+.foot .fbrand p{color:var(--muted);font-size:14px}
+.foot .fright{display:flex;align-items:center;gap:22px}
+.foot a.up,.foot .lockbtn{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;background:none;border:0;padding:0;cursor:pointer}
+.foot a.up:hover,.foot .lockbtn:hover{color:var(--fg)}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr);padding-top:36px;gap:28px}
+  .lead{font-size:17px}
+}
+@media (max-width:760px){
+  .logo img{height:40px}.v-nav{display:none}
+  .fav{width:32px;height:32px;top:4px;right:4px}.fav svg{width:16px;height:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="top">
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Knights of the Silicon Wafer home">
+      <picture>
+        <source srcset="/brand/kotsw-lockup-light.svg" media="(prefers-color-scheme: light)">
+        <img src="/brand/kotsw-lockup-dark.svg" alt="Knights of the Silicon Wafer" height="44">
+      </picture>
+    </a>
+    <a class="back" href="/#else"><span aria-hidden="true">←</span> Back to kotsw.com</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Wedding photos · September 5, 2026</p>
+      <h1>Sam and Mel's Wedding</h1>
+      <p class="lead">Thank you for celebrating with us. Tap any photo to see it full size. Tap the heart to save a favorite. Your favorites stay on this device.</p>
+      <p class="stats" id="stats"></p>
+    </div>
+    <figure class="cover" id="cover" hidden></figure>
+  </div>
+</header>
+
+<nav class="gnav" aria-label="Photo sections">
+  <div class="wrap">
+    <div class="pills" id="pills"></div>
+    <button class="favtog" id="favtog" type="button" aria-pressed="false" hidden>
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      Favorites <span class="n" id="favn">0</span>
+    </button>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+  <noscript><p class="empty">The photo gallery needs JavaScript.</p></noscript>
+  <div id="secs"></div>
+  <p class="empty" id="favempty" hidden><b>No favorites yet.</b> Tap the heart on any photo to save it here.</p>
+  <p class="empty" id="err" hidden>The photos did not load. Refresh the page to try again.</p>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="note">Photos by our wedding photographer. Please keep this link and password within the family and friends it was shared with.</p>
+    <div class="frow">
+      <div class="fbrand">
+        <picture>
+          <source srcset="/brand/kotsw-crest-light.svg" media="(prefers-color-scheme: light)">
+          <img src="/brand/kotsw-crest-dark.svg" alt="" aria-hidden="true" height="32">
+        </picture>
+        <p>© 2026 Knights of the Silicon Wafer</p>
+      </div>
+      <div class="fright">
+        <form method="post" action="/wedding/logout"><button class="lockbtn" type="submit">Lock gallery</button></form>
+        <a class="up" href="#top" id="up">Back to top ↑</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="v-bar">
+    <p class="v-count" id="vcount"></p>
+    <div class="v-actions">
+      <button class="vb" id="vfav" type="button" aria-pressed="false" aria-label="Favorite this photo" title="Favorite (F)">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+      <a class="vb" id="vdl" href="#" download aria-label="Download this photo" title="Download">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+      </a>
+      <button class="vb" id="vclose" type="button" aria-label="Close viewer" title="Close (Esc)">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="v-stage" id="vstage">
+    <img class="low" id="vlow" alt="">
+    <img class="full" id="vfull" alt="">
+    <button class="vb v-nav prev" id="vprev" type="button" aria-label="Previous photo"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="vb v-nav next" id="vnext" type="button" aria-label="Next photo"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var BASE = "/wedding/";
+  var FAV_KEY = "kotsw-wedding-favs-v1";
+  var COVER_ID = "magic-kingdom-portraits-1183"; /* the big photo at the top. Change to any photo id from photos.json. */
+  var FILE_PREFIX = "sam-and-mels-wedding";
+  var HEART = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+
+  var $ = function(id){ return document.getElementById(id); };
+  var flat = [], byId = {}, tiles = {}, secEls = [], favs = {}, favOnly = false;
+  var view = [], idx = -1, lastFocus = null, inFavs = false;
+
+  /* favorites, kept in this browser only */
+  try { (JSON.parse(localStorage.getItem(FAV_KEY) || "[]") || []).forEach(function(id){ favs[id] = 1; }); } catch(e){}
+  function saveFavs(){ try { localStorage.setItem(FAV_KEY, JSON.stringify(Object.keys(favs))); } catch(e){} }
+  function favCount(){ return Object.keys(favs).filter(function(id){ return byId[id]; }).length; }
+
+  function toggleFav(id){
+    if(favs[id]) delete favs[id]; else favs[id] = 1;
+    saveFavs();
+    var t = tiles[id];
+    if(t){ t.fav.setAttribute("aria-pressed", favs[id] ? "true" : "false"); t.fav.setAttribute("aria-label", favs[id] ? "Remove favorite" : "Add favorite"); }
+    $("favn").textContent = favCount();
+    if(!$("viewer").hidden && view[idx] && view[idx].id === id) paintViewerFav();
+    refresh();
+  }
+
+  /* build the page */
+  fetch(BASE + "photos.json", { credentials: "same-origin" }).then(function(r){
+    if(!r.ok) throw new Error(r.status); return r.json();
+  }).then(init).catch(function(){ $("err").hidden = false; });
+
+  function init(data){
+    var secs = $("secs"), pills = $("pills");
+    data.sections.forEach(function(s, si){
+      s.photos.forEach(function(p, pi){ p.sec = s; p.n = pi + 1; flat.push(p); byId[p.id] = p; });
+
+      var a = document.createElement("a");
+      a.href = "#sec-" + s.id;
+      a.innerHTML = '<span></span><small></small>';
+      a.firstChild.textContent = s.title; a.lastChild.textContent = s.count;
+      pills.appendChild(a);
+
+      var sec = document.createElement("section");
+      sec.className = "gsec"; sec.id = "sec-" + s.id;
+      sec.setAttribute("aria-labelledby", "h-" + s.id);
+      var head = document.createElement("header");
+      var eb = document.createElement("p"); eb.className = "eyebrow";
+      eb.textContent = ("0" + (si + 1)).slice(-2) + " · " + s.count + " photos";
+      var h2 = document.createElement("h2"); h2.id = "h-" + s.id; h2.textContent = s.title;
+      head.appendChild(eb); head.appendChild(h2);
+      var ul = document.createElement("ul"); ul.className = "grid";
+      s.photos.forEach(function(p){
+        var li = document.createElement("li"); li.className = "ph"; li._ar = p.w / p.h;
+        var open = document.createElement("button"); open.type = "button"; open.className = "open";
+        var img = document.createElement("img");
+        img.src = BASE + p.t; img.width = p.w; img.height = p.h; img.loading = "lazy"; img.decoding = "async";
+        img.alt = s.title + ", photo " + p.n;
+        open.appendChild(img);
+        open.addEventListener("click", function(){ openViewer(p.id, true); });
+        var fav = document.createElement("button"); fav.type = "button"; fav.className = "fav"; fav.innerHTML = HEART;
+        fav.setAttribute("aria-pressed", favs[p.id] ? "true" : "false");
+        fav.setAttribute("aria-label", favs[p.id] ? "Remove favorite" : "Add favorite");
+        fav.addEventListener("click", function(){ toggleFav(p.id); });
+        li.appendChild(open); li.appendChild(fav); ul.appendChild(li);
+        tiles[p.id] = { li: li, fav: fav, open: open };
+      });
+      sec.appendChild(head); sec.appendChild(ul); secs.appendChild(sec);
+      secEls.push({ el: sec, sec: s, pill: a });
+    });
+
+    $("stats").innerHTML = "<b>" + flat.length.toLocaleString("en-US") + "</b> photos · <b>" + data.sections.length + "</b> sections";
+
+    var cover = byId[COVER_ID];
+    if(cover){
+      var c = $("cover"), b = document.createElement("button"), im = document.createElement("img");
+      b.type = "button"; b.setAttribute("aria-label", "Open the cover photo");
+      im.src = BASE + cover.f; im.alt = "The two of us in front of the castle at night"; im.width = cover.w; im.height = cover.h;
+      b.appendChild(im); c.appendChild(b); c.hidden = false;
+      b.addEventListener("click", function(){ openViewer(cover.id, true); });
+    }
+
+    var ft = $("favtog"); ft.hidden = false; $("favn").textContent = favCount();
+    ft.addEventListener("click", function(){
+      favOnly = !favOnly; ft.setAttribute("aria-pressed", favOnly ? "true" : "false");
+      refresh();
+      if(favOnly) window.scrollTo(0, Math.max(0, $("main").getBoundingClientRect().top + window.scrollY - 60));
+    });
+
+    watchSections();
+    refresh();
+    window.addEventListener("resize", queueLayout);
+    var h = decodeURIComponent((location.hash || "").slice(1));
+    if(byId[h]) openViewer(h, false);
+  }
+
+  /* hide non-favorites when the Favorites filter is on, then lay out the rows */
+  function refresh(){
+    var shown = 0;
+    secEls.forEach(function(o){
+      var any = 0;
+      o.sec.photos.forEach(function(p){
+        var show = !favOnly || favs[p.id];
+        tiles[p.id].li.hidden = !show; if(show) any++;
+      });
+      o.el.hidden = !any; o.pill.hidden = !any; shown += any;
+    });
+    $("favempty").hidden = !(favOnly && !shown);
+    layout();
+  }
+
+  /* justified rows: every row fills the width, nothing is cropped */
+  var raf = 0;
+  function queueLayout(){ if(!raf) raf = requestAnimationFrame(function(){ raf = 0; layout(); }); }
+  function layout(){
+    var uls = document.querySelectorAll(".grid");
+    for(var u = 0; u < uls.length; u++){
+      var ul = uls[u], W = ul.clientWidth; if(!W) continue;
+      var gap = 6, target = W < 520 ? 120 : (W < 900 ? 180 : 220);
+      var row = [], sum = 0;
+      var flush = function(last){
+        var n = row.length, avail = W - gap * (n - 1);
+        var h = (last && sum * target + gap * (n - 1) < W) ? target : Math.floor(avail / sum * 100) / 100;
+        for(var i = 0; i < n; i++){ row[i].style.height = h + "px"; row[i].style.width = (row[i]._ar * h) + "px"; }
+        row = []; sum = 0;
+      };
+      for(var k = 0; k < ul.children.length; k++){
+        var li = ul.children[k]; if(li.hidden) continue;
+        row.push(li); sum += li._ar;
+        if(sum * target + gap * (row.length - 1) >= W) flush(false);
+      }
+      if(row.length) flush(true);
+    }
+  }
+
+  /* highlight the section pill for the part of the page on screen */
+  function watchSections(){
+    if(!("IntersectionObserver" in window)) return;
+    var pills = $("pills");
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        secEls.forEach(function(o){
+          var on = o.el === en.target;
+          o.pill.setAttribute("aria-current", on ? "true" : "false");
+          if(on){ pills.scrollTo({ left: Math.max(0, o.pill.offsetLeft - 24), behavior: "smooth" }); }
+        });
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    secEls.forEach(function(o){ io.observe(o.el); });
+  }
+
+  /* viewer */
+  var v = $("viewer"), low = $("vlow"), full = $("vfull");
+  function currentView(){ return flat.filter(function(p){ return !favOnly || favs[p.id]; }); }
+  function paintViewerFav(){
+    var on = !!favs[view[idx].id], b = $("vfav");
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.setAttribute("aria-label", on ? "Remove favorite" : "Add favorite");
+  }
+  function show(){
+    var p = view[idx];
+    low.src = BASE + p.t;
+    full.classList.remove("ready"); $("vstage").classList.remove("loaded"); full.dataset.id = p.id;
+    full.onload = function(){
+      if(full.dataset.id !== p.id) return;
+      full.classList.add("ready");
+      setTimeout(function(){ if(full.dataset.id === p.id) $("vstage").classList.add("loaded"); }, 300);
+    };
+    full.alt = p.sec.title + ", photo " + p.n; full.src = BASE + p.f;
+    $("vcount").innerHTML = "<b></b> · <span></span>";
+    $("vcount").firstChild.textContent = inFavs ? "Favorites" : p.sec.title;
+    $("vcount").lastChild.textContent = inFavs ? (idx + 1) + " / " + view.length + " · " + p.sec.title : p.n + " / " + p.sec.count;
+    var dl = $("vdl"); dl.href = BASE + p.f; dl.setAttribute("download", FILE_PREFIX + "-" + p.id + ".jpg");
+    $("vprev").disabled = idx === 0; $("vnext").disabled = idx === view.length - 1;
+    paintViewerFav();
+    [idx - 1, idx + 1].forEach(function(j){ if(view[j]){ var im = new Image(); im.src = BASE + view[j].f; } });
+    history.replaceState(history.state, "", "#" + p.id);
+  }
+  function openViewer(id, push){
+    view = currentView(); inFavs = favOnly; idx = view.findIndex(function(p){ return p.id === id; });
+    if(idx < 0){ view = flat.slice(); inFavs = false; idx = view.findIndex(function(p){ return p.id === id; }); }
+    if(idx < 0) return;
+    lastFocus = document.activeElement;
+    v.hidden = false; document.documentElement.classList.add("lock");
+    if(push) history.pushState({ viewer: 1 }, "", "#" + id);
+    show(); $("vclose").focus();
+  }
+  function hideViewer(){
+    if(v.hidden) return;
+    v.hidden = true; document.documentElement.classList.remove("lock");
+    full.removeAttribute("src"); low.removeAttribute("src");
+    if(lastFocus && lastFocus.focus && document.contains(lastFocus) && !lastFocus.closest("[hidden]")) lastFocus.focus();
+  }
+  function closeViewer(){
+    if(history.state && history.state.viewer) history.back();
+    else { hideViewer(); history.replaceState(null, "", location.pathname + location.search); }
+  }
+  function step(d){ var j = idx + d; if(j >= 0 && j < view.length){ idx = j; show(); } }
+
+  window.addEventListener("popstate", hideViewer);
+  window.addEventListener("hashchange", function(){
+    var h = decodeURIComponent((location.hash || "").slice(1));
+    if(byId[h] && v.hidden) openViewer(h, false);
+  });
+  $("vclose").addEventListener("click", closeViewer);
+  $("vprev").addEventListener("click", function(){ step(-1); });
+  $("vnext").addEventListener("click", function(){ step(1); });
+  $("vfav").addEventListener("click", function(){ toggleFav(view[idx].id); });
+  $("vstage").addEventListener("click", function(e){ if(e.target === $("vstage")) closeViewer(); });
+
+  var sx = 0, sy = 0;
+  $("vstage").addEventListener("pointerdown", function(e){ sx = e.clientX; sy = e.clientY; });
+  $("vstage").addEventListener("pointerup", function(e){
+    var dx = e.clientX - sx, dy = e.clientY - sy;
+    if(e.pointerType !== "mouse" && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(v.hidden) return;
+    if(e.key === "Escape"){ e.preventDefault(); closeViewer(); }
+    else if(e.key === "ArrowLeft"){ step(-1); }
+    else if(e.key === "ArrowRight"){ step(1); }
+    else if((e.key === "f" || e.key === "F") && !e.metaKey && !e.ctrlKey){ toggleFav(view[idx].id); }
+    else if(e.key === "Tab"){
+      var f = Array.prototype.filter.call(v.querySelectorAll("button,a[href]"), function(el){ return !el.disabled && el.offsetParent !== null; });
+      if(!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  $("up").addEventListener("click", function(e){
+    e.preventDefault();
+    var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
+  });
+})();
+</script>
+</body>
+</html>
