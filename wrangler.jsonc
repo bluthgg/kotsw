@@ -2,7 +2,7 @@
   // Cloudflare Workers static assets config for kotsw.com.
   // "name" must match the project name shown in the Cloudflare dashboard.
   "name": "kotsw",
-  // Small Worker that password-protects /wedding. Nothing else goes through it.
+  // Small Worker that password-protects /wedding and runs its comments and hearts API.
   "main": "./src/worker.js",
   "compatibility_date": "2026-11-01",
   "assets": {
@@ -11,5 +11,13 @@
     "binding": "ASSETS",
     // Only these paths run the Worker first. All other pages are served as plain files.
     "run_worker_first": ["/wedding", "/wedding/*"]
-  }
+  },
+  // D1 database for wedding hearts and comments. Tables are in _source/wedding-gallery/schema.sql.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kotsw-wedding",
+      "database_id": "0208ca16-f152-4fd1-872c-d3921c069d18"
+    }
+  ]
 }

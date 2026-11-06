@@ -140,6 +140,60 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 .v-nav.prev{left:max(10px,env(safe-area-inset-left,0px))}
 .v-nav.next{right:max(10px,env(safe-area-inset-right,0px))}
 
+
+.fav{display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:36px;border-radius:99px;gap:4px;padding:0 9px}
+.fav .n{font:700 12px var(--mono)}
+.fav .n:empty{display:none}
+.fav.has{opacity:1}
+.cmt{position:absolute;left:6px;bottom:6px;height:30px;display:inline-flex;align-items:center;gap:5px;padding:0 10px;border:0;border-radius:99px;cursor:pointer;
+  color:var(--veil-fg);background:color-mix(in srgb,var(--veil) 70%,transparent);font:700 12px var(--mono)}
+.cmt[hidden]{display:none}
+.cmt svg{width:15px;height:15px}
+.cmt:hover{color:var(--copper)}
+.cmt:focus-visible,.fav:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+.favtog.loved{margin-right:0}
+.nav-r{flex:none;display:flex;gap:8px}
+.vb .n{position:absolute;margin:-26px -26px 0 0;font:700 10px var(--mono)}
+.vb.has-n{position:relative}
+.vb .cnum{position:absolute;right:2px;bottom:2px;min-width:16px;height:16px;padding:0 4px;border-radius:99px;background:var(--copper);color:#15110e;font:700 10px/16px var(--mono);text-align:center}
+.vb .cnum:empty{display:none}
+.viewer.withpanel{grid-template-columns:minmax(0,1fr) 360px}
+.viewer.withpanel .v-bar,.viewer.withpanel .v-stage{grid-column:1}
+.v-panel{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;min-height:0;border-left:1px solid #26333f;background:color-mix(in srgb,var(--veil) 92%,#000);padding:max(10px,env(safe-area-inset-top,0px)) 16px max(12px,env(safe-area-inset-bottom,0px))}
+.v-panel[hidden]{display:none}
+.vp-head{display:flex;align-items:center;justify-content:space-between;min-height:44px}
+.vp-head h3{font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#93a2b0}
+.vp-loved{font-size:14px;color:var(--copper);margin:2px 0 10px}
+.vp-loved:empty{display:none}
+.vp-list{list-style:none;margin:0;padding:0;flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px}
+.vp-list li{font-size:14px}
+.vp-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;color:#93a2b0}
+.vp-meta b{color:var(--veil-fg);font-size:14px}
+.vp-wait{color:var(--copper)}
+.vp-del{margin-left:auto;background:none;border:0;color:#93a2b0;font:inherit;text-decoration:underline;cursor:pointer;padding:4px}
+.vp-text{margin-top:3px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--veil-fg)}
+.vp-empty{color:#93a2b0}
+.vp-form{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.vp-form textarea{width:100%;min-height:72px;resize:vertical;font:16px/1.4 var(--ui);color:var(--veil-fg);background:transparent;border:1px solid #26333f;border-radius:8px;padding:10px}
+.vp-form textarea:focus{outline:2px solid var(--copper);outline-offset:1px}
+.vp-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.vp-row small{color:#93a2b0;font-size:12px}
+.vp-post{font:700 14px var(--ui);padding:9px 18px;border-radius:99px;border:0;background:var(--copper);color:#15110e;cursor:pointer}
+.vp-post:disabled{opacity:.5}
+.toast{position:fixed;left:50%;bottom:max(20px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;background:var(--surface);color:var(--fg);border:1px solid var(--copper);border-radius:10px;padding:10px 16px;font-size:14px;max-width:90vw}
+.toast[hidden]{display:none}
+.namedlg{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--fg);padding:22px;width:min(92vw,380px)}
+.namedlg::backdrop{background:rgba(0,0,0,.6)}
+.namedlg h3{font:800 22px var(--display);text-transform:uppercase}
+.namedlg p{color:var(--muted);font-size:14px;margin:6px 0 14px}
+.namedlg input{width:100%;font:16px var(--ui);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:8px;padding:10px}
+.namedlg .vp-row{margin-top:14px;justify-content:flex-end}
+.namedlg .ghostb{background:none;border:0;color:var(--muted);font:600 14px var(--ui);cursor:pointer;padding:9px 12px}
+.foot .lockbtn[hidden]{display:none}
+@media (max-width:760px){
+  .viewer.withpanel{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) minmax(0,52vh)}
+  .v-panel{grid-column:1;grid-row:3;border-left:0;border-top:1px solid #26333f}
+}
 /* footer */
 .foot{margin-top:72px;border-top:1px solid var(--line)}
 .foot .note{color:var(--muted);font-size:14px;padding-top:18px}
@@ -157,7 +211,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 }
 @media (max-width:760px){
   .logo img{height:40px}.v-nav{display:none}
-  .fav{width:32px;height:32px;top:4px;right:4px}.fav svg{width:16px;height:16px}
+  .fav{width:auto;min-width:32px;height:32px;top:4px;right:4px;padding:0 7px}.fav svg{width:16px;height:16px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -200,17 +254,23 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
       <div class="pills" id="pills"></div>
       <button class="pbtn r" id="pr" type="button" aria-label="Scroll sections right" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
+    <div class="nav-r">
+    <button class="favtog" id="lovedtog" type="button" aria-pressed="false" hidden>
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>
+      Most loved
+    </button>
     <button class="favtog" id="favtog" type="button" aria-pressed="false" hidden>
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-      Favorites <span class="n" id="favn">0</span>
+      My favorites <span class="n" id="favn">0</span>
     </button>
+    </div>
   </div>
 </nav>
 
 <main class="wrap" id="main">
   <noscript><p class="empty">The photo gallery needs JavaScript.</p></noscript>
   <div id="secs"></div>
-  <p class="empty" id="favempty" hidden><b>No favorites yet.</b> Tap the heart on any photo to save it here.</p>
+  <p class="empty" id="favempty" hidden></p>
   <p class="empty" id="err" hidden>The photos did not load. Refresh the page to try again.</p>
 </main>
 
@@ -226,6 +286,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
         <p>© 2026 Knights of the Silicon Wafer</p>
       </div>
       <div class="fright">
+        <button class="lockbtn" id="chname" type="button" hidden></button>
         <form method="post" action="/wedding/logout"><button class="lockbtn" type="submit">Lock gallery</button></form>
         <a class="up" href="#top" id="up">Back to top ↑</a>
       </div>
@@ -238,8 +299,11 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   <div class="v-bar">
     <p class="v-count" id="vcount"></p>
     <div class="v-actions">
-      <button class="vb" id="vfav" type="button" aria-pressed="false" aria-label="Favorite this photo" title="Favorite (F)">
-        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <button class="vb has-n" id="vfav" type="button" aria-pressed="false" aria-label="Favorite this photo" title="Favorite (F)">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="cnum" id="vfavn"></span>
+      </button>
+      <button class="vb has-n" id="vcm" type="button" aria-pressed="false" aria-label="Comments" title="Comments" hidden>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="cnum" id="vcmn"></span>
       </button>
       <a class="vb" id="vdl" href="#" download aria-label="Download this photo" title="Download">
         <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
@@ -255,42 +319,184 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     <button class="vb v-nav prev" id="vprev" type="button" aria-label="Previous photo"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
     <button class="vb v-nav next" id="vnext" type="button" aria-label="Next photo"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
+  <aside class="v-panel" id="vpanel" aria-label="Comments" hidden>
+    <div class="vp-head"><h3>Comments</h3>
+      <button class="vb" id="vpclose" type="button" aria-label="Close comments"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <p class="vp-loved" id="vploved"></p>
+    <ul class="vp-list" id="vplist"></ul>
+    <form class="vp-form" id="vpform">
+      <textarea id="vptext" maxlength="600" rows="3" placeholder="Write a comment" aria-label="Write a comment"></textarea>
+      <div class="vp-row"><small id="vphint">Comments show up after approval.</small><button class="vp-post" id="vppost" type="submit">Post</button></div>
+    </form>
+  </aside>
 </div>
+
+<p class="toast" id="toast" role="status" hidden></p>
+<dialog class="namedlg" id="namedlg">
+  <form id="nameform" method="dialog">
+    <h3>Your name</h3>
+    <p>Shown next to your hearts and comments. You only need to do this once.</p>
+    <input id="nameinp" type="text" maxlength="40" autocomplete="name" aria-label="Your name" required>
+    <div class="vp-row"><button class="ghostb" id="namecancel" type="button">Cancel</button><button class="vp-post" type="submit">Save</button></div>
+  </form>
+</dialog>
 
 <script>
 (function(){
   "use strict";
-  var BASE = "/wedding/";
-  var FAV_KEY = "kotsw-wedding-favs-v1";
+  var BASE = "/wedding/", API = BASE + "api/";
+  var FAV_KEY = "kotsw-wedding-favs-v1", NAME_KEY = "kotsw-wedding-name-v1";
   var COVER_ID = "magic-kingdom-portraits-1183"; /* the big photo at the top. Change to any photo id from photos.json. */
   var FILE_PREFIX = "sam-and-mels-wedding";
   var HEART = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+  var CHAT = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
 
   var $ = function(id){ return document.getElementById(id); };
-  var flat = [], byId = {}, tiles = {}, secEls = [], favs = {}, favOnly = false;
-  var view = [], idx = -1, lastFocus = null, inFavs = false;
-  var calm = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
-  var navLock = false, lockT = 0;
+  function el(tag, cls){ var e = document.createElement(tag); if(cls) e.className = cls; return e; }
 
-  /* favorites, kept in this browser only */
+  var flat = [], byId = {}, tiles = {}, main = {}, secEls = [], favs = {}, counts = {};
+  var mode = "all";            /* "all", "mine" (my favorites) or "loved" (most hearts) */
+  var serverOn = false;        /* true once the hearts and comments service answers */
+  var myName = "", lastState = 0, pendingNameCb = null, lovedUl = null, lovedSec = null;
+  var view = [], idx = -1, vMode = "all", lastFocus = null, closing = false, panelOpen = false, photoReq = 0;
+  var calm = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  var navLock = false, lockT = 0, toastT = 0;
+  var v = $("viewer"), low = $("vlow"), full = $("vfull");
+
+  /* This browser's name and favorites. Favorites are also kept in the shared database when it is available. */
+  try { myName = localStorage.getItem(NAME_KEY) || ""; } catch(e){}
   try { (JSON.parse(localStorage.getItem(FAV_KEY) || "[]") || []).forEach(function(id){ favs[id] = 1; }); } catch(e){}
   function saveFavs(){ try { localStorage.setItem(FAV_KEY, JSON.stringify(Object.keys(favs))); } catch(e){} }
   function favCount(){ return Object.keys(favs).filter(function(id){ return byId[id]; }).length; }
+  function cleanName(s){ return String(s || "").replace(/\s+/g, " ").trim().slice(0, 40); }
+  function cnt(id){ return counts[id] || { h: 0, c: 0 }; }
+  function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; }, 3500); }
 
-  function toggleFav(id){
-    if(favs[id]) delete favs[id]; else favs[id] = 1;
-    saveFavs();
-    var t = tiles[id];
-    if(t){ t.fav.setAttribute("aria-pressed", favs[id] ? "true" : "false"); t.fav.setAttribute("aria-label", favs[id] ? "Remove favorite" : "Add favorite"); }
-    $("favn").textContent = favCount();
-    if(!$("viewer").hidden && view[idx] && view[idx].id === id) paintViewerFav();
-    refresh();
+  function api(path, body){
+    var opt = { credentials: "same-origin" };
+    if(body){ opt.method = "POST"; opt.headers = { "Content-Type": "application/json" }; opt.body = JSON.stringify(body); }
+    return fetch(API + path, opt).then(function(r){
+      if(!r.ok){ var e = new Error(String(r.status)); e.status = r.status; throw e; }
+      return r.json();
+    });
   }
+
+  /* ---------- name prompt ---------- */
+  function paintName(){
+    var b = $("chname"); b.hidden = !serverOn;
+    b.textContent = myName ? "Name: " + myName + " (change)" : "Add your name";
+  }
+  function askName(cb){
+    var d = $("namedlg"); pendingNameCb = cb || null;
+    $("nameinp").value = myName;
+    if(typeof d.showModal === "function") d.showModal(); else d.setAttribute("open", "");
+    $("nameinp").focus(); $("nameinp").select();
+  }
+  function ensureName(cb){ if(myName) cb(); else askName(cb); }
+  $("nameform").addEventListener("submit", function(e){
+    e.preventDefault();
+    var n = cleanName($("nameinp").value);
+    if(!n){ $("nameinp").focus(); return; }
+    myName = n; try { localStorage.setItem(NAME_KEY, n); } catch(x){}
+    paintName();
+    var cb = pendingNameCb; pendingNameCb = null;
+    $("namedlg").close();
+    if(cb) cb();
+  });
+  $("namecancel").addEventListener("click", function(){ pendingNameCb = null; $("namedlg").close(); });
+  $("chname").addEventListener("click", function(){ askName(null); });
+
+  /* ---------- tiles ---------- */
+  function makeTile(p, label){
+    var li = el("li", "ph"); li._ar = p.w / p.h; li.dataset.id = p.id;
+    var open = el("button", "open"); open.type = "button";
+    var img = el("img"); img.src = BASE + p.t; img.width = p.w; img.height = p.h; img.loading = "lazy"; img.decoding = "async";
+    img.alt = label + ", photo " + p.n;
+    open.appendChild(img);
+    open.addEventListener("click", function(){ openViewer(p.id, true); });
+    var fav = el("button", "fav"); fav.type = "button"; fav.innerHTML = HEART + '<span class="n"></span>';
+    fav.addEventListener("click", function(){ toggleFav(p.id); });
+    var cmt = el("button", "cmt"); cmt.type = "button"; cmt.hidden = true; cmt.innerHTML = CHAT + "<b></b>";
+    cmt.addEventListener("click", function(){ openViewer(p.id, true, true); });
+    li.appendChild(open); li.appendChild(fav); li.appendChild(cmt);
+    var t = { li: li, open: open, fav: fav, cmt: cmt, p: p };
+    (tiles[p.id] = tiles[p.id] || []).push(t);
+    paintTile(t);
+    return t;
+  }
+  function paintTile(t){
+    var id = t.p.id, on = !!favs[id], c = cnt(id), showH = serverOn && c.h > 0;
+    t.fav.setAttribute("aria-pressed", on ? "true" : "false");
+    t.fav.setAttribute("aria-label", (on ? "Remove favorite" : "Add favorite") + (showH ? ". " + c.h + (c.h === 1 ? " person loves" : " people love") + " this photo" : ""));
+    t.fav.classList.toggle("has", showH);
+    t.fav.lastChild.textContent = showH ? c.h : "";
+    var showC = serverOn && c.c > 0;
+    t.cmt.hidden = !showC;
+    if(showC){ t.cmt.lastChild.textContent = c.c; t.cmt.setAttribute("aria-label", c.c + (c.c === 1 ? " comment" : " comments") + ". Open comments"); }
+  }
+  function paintId(id){ (tiles[id] || []).forEach(paintTile); }
+  function paintAll(){ Object.keys(tiles).forEach(paintId); }
+  /* the tile for this photo that is actually on screen, if any */
+  function visibleTile(id){
+    var a = tiles[id] || [];
+    for(var i = 0; i < a.length; i++){ if(a[i].li.offsetParent !== null) return a[i]; }
+    return null;
+  }
+
+  /* ---------- hearts ---------- */
+  function setFav(id, on){
+    var c = counts[id] = counts[id] || { h: 0, c: 0 };
+    if(on && !favs[id]){ favs[id] = 1; c.h++; }
+    else if(!on && favs[id]){ delete favs[id]; c.h = Math.max(0, c.h - 1); }
+    saveFavs(); paintId(id); $("favn").textContent = favCount();
+    if(!v.hidden && view[idx] && view[idx].id === id) paintViewerFav();
+    if(mode === "mine") refresh();
+  }
+  function toggleFav(id){
+    if(!serverOn){ setFav(id, !favs[id]); return; }
+    ensureName(function(){
+      var on = !favs[id];
+      setFav(id, on);
+      api("fav", { id: id, name: myName, on: on }).then(function(r){
+        var c = counts[id] = counts[id] || { h: 0, c: 0 }; c.h = r.count;
+        paintId(id); updateModeButtons();
+        if(!v.hidden && view[idx] && view[idx].id === id){ paintViewerFav(); if(panelOpen) loadPhoto(); }
+      }).catch(function(){ setFav(id, !on); toast("Could not save that. Try again."); });
+    });
+  }
+  function anyLoved(){ for(var k in counts){ if(counts[k].h > 0) return true; } return false; }
+  function updateModeButtons(){
+    $("lovedtog").hidden = !(serverOn && anyLoved());
+    if(mode === "loved" && $("lovedtog").hidden){ mode = "all"; refresh(); }
+    $("favtog").setAttribute("aria-pressed", mode === "mine" ? "true" : "false");
+    $("lovedtog").setAttribute("aria-pressed", mode === "loved" ? "true" : "false");
+  }
+  function setMode(m){
+    mode = mode === m ? "all" : m;
+    updateModeButtons(); refresh();
+    if(mode !== "all") window.scrollTo(0, Math.max(0, $("main").getBoundingClientRect().top + window.scrollY - 60));
+  }
+
+  /* shared counts and my hearts, from the database */
+  function loadState(){
+    return api("state").then(function(s){
+      serverOn = true; counts = s.counts || {}; favs = {};
+      (s.mine || []).forEach(function(id){ favs[id] = 1; });
+      saveFavs(); lastState = Date.now();
+    }).catch(function(){ /* no database (or an older deploy): keep working with this browser's favorites only */ }).then(function(){
+      $("vcm").hidden = !serverOn; paintName(); paintAll(); $("favn").textContent = favCount(); updateModeButtons();
+      if(!v.hidden && view[idx]){ paintViewerFav(); paintViewerCmt(); }
+    });
+  }
+  document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState === "visible" && serverOn && Date.now() - lastState > 60000) loadState();
+  });
 
   /* we put the grid back where the photo is when the viewer closes, so the browser must not restore its own scroll position */
   try { if("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch(e){}
 
-  /* build the page */
+  /* ---------- build the page ---------- */
   fetch(BASE + "photos.json", { credentials: "same-origin" }).then(function(r){
     if(!r.ok) throw new Error(r.status); return r.json();
   }).then(init).catch(function(){ $("err").hidden = false; });
@@ -298,7 +504,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   function init(data){
     var secs = $("secs"), pills = $("pills");
     data.sections.forEach(function(s, si){
-      s.photos.forEach(function(p, pi){ p.sec = s; p.n = pi + 1; flat.push(p); byId[p.id] = p; });
+      s.photos.forEach(function(p, pi){ p.sec = s; p.n = pi + 1; p.i = flat.length; flat.push(p); byId[p.id] = p; });
 
       var a = document.createElement("a");
       a.href = "#sec-" + s.id;
@@ -313,33 +519,28 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
         secEls[si].el.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "start" });
       });
 
-      var sec = document.createElement("section");
-      sec.className = "gsec"; sec.id = "sec-" + s.id;
+      var sec = el("section", "gsec"); sec.id = "sec-" + s.id;
       sec.setAttribute("aria-labelledby", "h-" + s.id);
       var head = document.createElement("header");
-      var eb = document.createElement("p"); eb.className = "eyebrow";
+      var eb = el("p", "eyebrow");
       eb.textContent = ("0" + (si + 1)).slice(-2) + " · " + s.count + " photos";
       var h2 = document.createElement("h2"); h2.id = "h-" + s.id; h2.textContent = s.title;
       head.appendChild(eb); head.appendChild(h2);
-      var ul = document.createElement("ul"); ul.className = "grid";
-      s.photos.forEach(function(p){
-        var li = document.createElement("li"); li.className = "ph"; li._ar = p.w / p.h;
-        var open = document.createElement("button"); open.type = "button"; open.className = "open";
-        var img = document.createElement("img");
-        img.src = BASE + p.t; img.width = p.w; img.height = p.h; img.loading = "lazy"; img.decoding = "async";
-        img.alt = s.title + ", photo " + p.n;
-        open.appendChild(img);
-        open.addEventListener("click", function(){ openViewer(p.id, true); });
-        var fav = document.createElement("button"); fav.type = "button"; fav.className = "fav"; fav.innerHTML = HEART;
-        fav.setAttribute("aria-pressed", favs[p.id] ? "true" : "false");
-        fav.setAttribute("aria-label", favs[p.id] ? "Remove favorite" : "Add favorite");
-        fav.addEventListener("click", function(){ toggleFav(p.id); });
-        li.appendChild(open); li.appendChild(fav); ul.appendChild(li);
-        tiles[p.id] = { li: li, fav: fav, open: open };
-      });
+      var ul = el("ul", "grid");
+      s.photos.forEach(function(p){ var t = makeTile(p, s.title); main[p.id] = t; ul.appendChild(t.li); });
       sec.appendChild(head); sec.appendChild(ul); secs.appendChild(sec);
       secEls.push({ el: sec, sec: s, pill: a });
     });
+
+    /* the "Most loved" section is filled in only when someone picks that view */
+    lovedSec = el("section", "gsec"); lovedSec.id = "sec-loved"; lovedSec.hidden = true;
+    lovedSec.setAttribute("aria-labelledby", "h-loved");
+    var lh = document.createElement("header");
+    var leb = el("p", "eyebrow"); leb.id = "lovedeb";
+    var lh2 = document.createElement("h2"); lh2.id = "h-loved"; lh2.textContent = "Most loved";
+    lh.appendChild(leb); lh.appendChild(lh2);
+    lovedUl = el("ul", "grid");
+    lovedSec.appendChild(lh); lovedSec.appendChild(lovedUl); secs.appendChild(lovedSec);
 
     $("stats").innerHTML = "<b>" + flat.length.toLocaleString("en-US") + "</b> photos · <b>" + data.sections.length + "</b> sections";
 
@@ -349,15 +550,12 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
       b.type = "button"; b.setAttribute("aria-label", "Open the cover photo");
       im.src = BASE + cover.f; im.alt = "The two of us in front of the castle at night"; im.width = cover.w; im.height = cover.h;
       b.appendChild(im); c.appendChild(b); c.hidden = false;
-      b.addEventListener("click", function(){ openViewer(cover.id, true); });
+      b.addEventListener("click", function(){ openViewer(cover.id, true, false, c); });
     }
 
     var ft = $("favtog"); ft.hidden = false; $("favn").textContent = favCount();
-    ft.addEventListener("click", function(){
-      favOnly = !favOnly; ft.setAttribute("aria-pressed", favOnly ? "true" : "false");
-      refresh();
-      if(favOnly) window.scrollTo(0, Math.max(0, $("main").getBoundingClientRect().top + window.scrollY - 60));
-    });
+    ft.addEventListener("click", function(){ setMode("mine"); });
+    $("lovedtog").addEventListener("click", function(){ setMode("loved"); });
 
     var P = $("pills");
     P.addEventListener("scroll", updateEdges, { passive: true });
@@ -367,22 +565,46 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     watchSections();
     refresh();
     window.addEventListener("resize", queueLayout);
-    var h = decodeURIComponent((location.hash || "").slice(1));
-    if(byId[h]) openViewer(h, false);
+
+    loadState().then(function(){
+      var h = decodeURIComponent((location.hash || "").slice(1));
+      if(byId[h]) openViewer(h, false);
+    });
   }
 
-  /* hide non-favorites when the Favorites filter is on, then lay out the rows */
+  function lovedList(){
+    return flat.filter(function(p){ return cnt(p.id).h > 0; })
+      .sort(function(a, b){ return cnt(b.id).h - cnt(a.id).h || a.i - b.i; }).slice(0, 60);
+  }
+  function buildLoved(){
+    Array.prototype.forEach.call(lovedUl.children, function(li){
+      var id = li.dataset.id; tiles[id] = (tiles[id] || []).filter(function(t){ return t.li !== li; });
+    });
+    lovedUl.innerHTML = "";
+    var list = lovedList();
+    list.forEach(function(p){ lovedUl.appendChild(makeTile(p, p.sec.title).li); });
+    $("lovedeb").textContent = "Top " + list.length + " by hearts";
+  }
+
+  /* show or hide photos for the chosen view, then lay out the rows */
   function refresh(){
     var shown = 0;
+    if(mode === "loved") buildLoved();
     secEls.forEach(function(o){
       var any = 0;
       o.sec.photos.forEach(function(p){
-        var show = !favOnly || favs[p.id];
-        tiles[p.id].li.hidden = !show; if(show) any++;
+        var show = mode === "all" || (mode === "mine" && favs[p.id]);
+        main[p.id].li.hidden = !show; if(show) any++;
       });
       o.el.hidden = !any; o.pill.hidden = !any; shown += any;
     });
-    $("favempty").hidden = !(favOnly && !shown);
+    lovedSec.hidden = mode !== "loved";
+    if(mode === "loved") shown = lovedUl.children.length;
+    var fe = $("favempty");
+    fe.hidden = !(mode !== "all" && !shown);
+    if(!fe.hidden) fe.innerHTML = mode === "loved"
+      ? "<b>No hearts yet.</b> Photos show up here once guests start hearting them."
+      : "<b>No favorites yet.</b> Tap the heart on any photo to save it here.";
     layout(); updateEdges();
   }
 
@@ -410,7 +632,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     }
   }
 
-  /* section pills: highlight the one for the part of the page on screen, and keep it in view */
+  /* ---------- section pills ---------- */
   function centerPill(a){
     var P = $("pills"), left = a.offsetLeft - (P.clientWidth - a.offsetWidth) / 2;
     P.scrollTo({ left: Math.max(0, left), behavior: calm.matches ? "auto" : "smooth" });
@@ -437,14 +659,18 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     secEls.forEach(function(o){ io.observe(o.el); });
   }
 
-  /* viewer */
-  var v = $("viewer"), low = $("vlow"), full = $("vfull"), closing = false;
-  function currentView(){ return flat.filter(function(p){ return !favOnly || favs[p.id]; }); }
+  /* ---------- viewer ---------- */
+  function currentView(){
+    if(mode === "loved") return lovedList();
+    return flat.filter(function(p){ return mode === "all" || favs[p.id]; });
+  }
   function paintViewerFav(){
-    var on = !!favs[view[idx].id], b = $("vfav");
+    var id = view[idx].id, on = !!favs[id], c = cnt(id), b = $("vfav");
     b.setAttribute("aria-pressed", on ? "true" : "false");
     b.setAttribute("aria-label", on ? "Remove favorite" : "Add favorite");
+    $("vfavn").textContent = serverOn && c.h ? c.h : "";
   }
+  function paintViewerCmt(){ $("vcmn").textContent = cnt(view[idx].id).c || ""; }
   function show(){
     var p = view[idx];
     low.src = BASE + p.t;
@@ -456,14 +682,92 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     };
     full.alt = p.sec.title + ", photo " + p.n; full.src = BASE + p.f;
     $("vcount").innerHTML = "<b></b> · <span></span>";
-    $("vcount").firstChild.textContent = inFavs ? "Favorites" : p.sec.title;
-    $("vcount").lastChild.textContent = inFavs ? (idx + 1) + " / " + view.length + " · " + p.sec.title : p.n + " / " + p.sec.count;
+    $("vcount").firstChild.textContent = vMode === "mine" ? "Favorites" : (vMode === "loved" ? "Most loved" : p.sec.title);
+    $("vcount").lastChild.textContent = vMode === "all" ? p.n + " / " + p.sec.count : (idx + 1) + " / " + view.length + " · " + p.sec.title;
     var dl = $("vdl"); dl.href = BASE + p.f; dl.setAttribute("download", FILE_PREFIX + "-" + p.id + ".jpg");
     $("vprev").disabled = idx === 0; $("vnext").disabled = idx === view.length - 1;
-    paintViewerFav();
+    paintViewerFav(); paintViewerCmt();
+    if(panelOpen) loadPhoto();
     [idx - 1, idx + 1].forEach(function(j){ if(view[j]){ var im = new Image(); im.src = BASE + view[j].f; } });
     history.replaceState(history.state, "", "#" + p.id);
   }
+
+  /* comments panel */
+  function setPanel(on){
+    panelOpen = on; $("vpanel").hidden = !on; v.classList.toggle("withpanel", on); $("vcm").setAttribute("aria-pressed", on ? "true" : "false");
+    if(on) loadPhoto();
+  }
+  function loadPhoto(){
+    var p = view[idx]; if(!p || !panelOpen || !serverOn) return;
+    var id = p.id, req = ++photoReq;
+    $("vploved").textContent = ""; $("vphint").textContent = "Comments show up after approval.";
+    var l = $("vplist"); l.innerHTML = ""; var w = el("li", "vp-empty"); w.textContent = "Loading"; l.appendChild(w);
+    api("photo?id=" + encodeURIComponent(id)).then(function(d){
+      if(req !== photoReq) return;
+      renderPanel(d);
+    }).catch(function(){
+      if(req !== photoReq) return;
+      l.innerHTML = ""; var e = el("li", "vp-empty"); e.textContent = "Could not load comments."; l.appendChild(e);
+    });
+  }
+  function emptyNote(){ var e = el("li", "vp-empty"); e.textContent = "No comments yet. Be the first."; return e; }
+  function renderPanel(d){
+    var names = d.hearts || [], more = d.heartCount - names.length;
+    $("vploved").textContent = d.heartCount ? "Loved by " + names.join(", ") + (more > 0 ? " and " + more + " more" : "") : "";
+    var list = $("vplist"); list.innerHTML = "";
+    if(!d.comments.length){ list.appendChild(emptyNote()); return; }
+    d.comments.forEach(function(c){ list.appendChild(commentLi(c)); });
+  }
+  function commentLi(c){
+    var li = el("li");
+    var m = el("div", "vp-meta"), b = el("b"); b.textContent = c.name;
+    var t = el("span"); t.textContent = new Date(c.at * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    m.appendChild(b); m.appendChild(t);
+    if(c.pending){ var w = el("span", "vp-wait"); w.textContent = "Waiting for approval"; m.appendChild(w); }
+    if(c.mine){
+      var d = el("button", "vp-del"); d.type = "button"; d.textContent = "Delete";
+      d.addEventListener("click", function(){ delComment(c, li, d); });
+      m.appendChild(d);
+    }
+    var x = el("p", "vp-text"); x.textContent = c.body;
+    li.appendChild(m); li.appendChild(x);
+    return li;
+  }
+  function delComment(c, li, btn){
+    if(btn.dataset.sure !== "1"){
+      btn.dataset.sure = "1"; btn.textContent = "Tap again to delete";
+      setTimeout(function(){ btn.dataset.sure = ""; btn.textContent = "Delete"; }, 4000);
+      return;
+    }
+    var id = view[idx].id;
+    api("comment/delete", { id: c.id }).then(function(){
+      li.remove();
+      if(!c.pending){ var k = counts[id]; if(k){ k.c = Math.max(0, k.c - 1); paintId(id); paintViewerCmt(); } }
+      if(!$("vplist").children.length) $("vplist").appendChild(emptyNote());
+    }).catch(function(){ toast("Could not delete that. Try again."); });
+  }
+  $("vcm").addEventListener("click", function(){ setPanel(!panelOpen); });
+  $("vpclose").addEventListener("click", function(){ setPanel(false); $("vcm").focus(); });
+  $("vpform").addEventListener("submit", function(e){
+    e.preventDefault();
+    var ta = $("vptext"), body = ta.value.trim();
+    if(!body || !view[idx]) return;
+    var id = view[idx].id;
+    ensureName(function(){
+      var btn = $("vppost"); btn.disabled = true;
+      api("comment", { id: id, name: myName, body: body }).then(function(r){
+        ta.value = "";
+        if(view[idx] && view[idx].id === id){
+          var list = $("vplist"), first = list.firstChild;
+          if(first && first.classList.contains("vp-empty")) list.innerHTML = "";
+          list.appendChild(commentLi(r.comment)); list.scrollTop = list.scrollHeight;
+          $("vphint").textContent = "Thank you! It will show up once it is approved.";
+        }
+      }).catch(function(err){
+        toast(err.status === 429 ? "That is a lot of comments. Try again in a few minutes." : "Could not post that. Try again.");
+      }).then(function(){ btn.disabled = false; });
+    });
+  });
 
   /* where the photo is drawn inside the viewer (the image box uses object-fit: contain) */
   function shownRect(p){
@@ -471,7 +775,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     var s = Math.min(b.width / p.w, b.height / p.h), w = p.w * s, h = p.h * s;
     return { left: b.left + (b.width - w) / 2, top: b.top + (b.height - h) / 2, width: w, height: h };
   }
-  function place(el, r){ el.style.left = r.left + "px"; el.style.top = r.top + "px"; el.style.width = r.width + "px"; el.style.height = r.height + "px"; }
+  function place(e, r){ e.style.left = r.left + "px"; e.style.top = r.top + "px"; e.style.width = r.width + "px"; e.style.height = r.height + "px"; }
   function ghost(src, r){
     var g = document.createElement("img");
     g.className = "ghost"; g.alt = ""; g.src = src; place(g, r);
@@ -479,13 +783,13 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   }
   /* scroll the page, with no animation, so this photo's thumbnail is on screen. Returns its box, or null. */
   function revealTile(id){
-    var t = tiles[id]; if(!t || t.li.hidden) return null;
+    var t = visibleTile(id); if(!t) return null;
     var r = t.li.getBoundingClientRect(), top = $("gnav").offsetHeight + 8;
     if(r.top < top || r.bottom > window.innerHeight - 8){
-      var el = document.documentElement, old = el.style.scrollBehavior;
-      el.style.scrollBehavior = "auto";
+      var root = document.documentElement, old = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
       window.scrollTo(0, window.scrollY + r.top - (window.innerHeight - r.height) / 2);
-      el.style.scrollBehavior = old;
+      root.style.scrollBehavior = old;
       r = t.li.getBoundingClientRect();
     }
     return r;
@@ -508,15 +812,16 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     setTimeout(function(){ g.remove(); done(); }, 330);
   }
 
-  function openViewer(id, fromClick){
-    view = currentView(); inFavs = favOnly; idx = view.findIndex(function(p){ return p.id === id; });
-    if(idx < 0){ view = flat.slice(); inFavs = false; idx = view.findIndex(function(p){ return p.id === id; }); }
+  function openViewer(id, fromClick, withPanel, fromEl){
+    view = currentView(); vMode = mode; idx = view.findIndex(function(p){ return p.id === id; });
+    if(idx < 0){ view = flat.slice(); vMode = "all"; idx = view.findIndex(function(p){ return p.id === id; }); }
     if(idx < 0) return;
     lastFocus = document.activeElement;
-    var t = tiles[id];
-    var from = (fromClick && !calm.matches && t && !t.li.hidden) ? t.li.getBoundingClientRect() : null;
+    var t = visibleTile(id), from = null;
+    if(fromClick && !calm.matches){ if(fromEl) from = fromEl.getBoundingClientRect(); else if(t) from = t.li.getBoundingClientRect(); }
     v.hidden = false; document.documentElement.classList.add("lock");
     if(fromClick) history.pushState({ viewer: 1 }, "", "#" + id);
+    if(withPanel && serverOn) setPanel(true);
     show(); $("vclose").focus();
     if(from) animateOpen(view[idx], from);
   }
@@ -527,8 +832,8 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     document.documentElement.classList.remove("lock");
     full.removeAttribute("src"); low.removeAttribute("src");
     Array.prototype.forEach.call(document.querySelectorAll(".ghost"), function(g){ g.remove(); });
-    var t = p && tiles[p.id];
-    if(t && !t.li.hidden){ revealTile(p.id); t.open.focus({ preventScroll: true }); }
+    var t = p && visibleTile(p.id);
+    if(t){ revealTile(p.id); t.open.focus({ preventScroll: true }); }
     else if(lastFocus && lastFocus.focus && document.contains(lastFocus) && !lastFocus.closest("[hidden]")) lastFocus.focus();
   }
   function closeViewer(){
@@ -552,9 +857,9 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   $("vprev").addEventListener("click", function(){ step(-1); });
   $("vnext").addEventListener("click", function(){ step(1); });
   $("vfav").addEventListener("click", function(){ toggleFav(view[idx].id); });
-  /* a click anywhere outside the photo itself closes the viewer */
+  /* a click anywhere outside the photo itself (and outside the comments panel) closes the viewer */
   v.addEventListener("click", function(e){
-    if(e.target.closest("button, a") || !view[idx]) return;
+    if(e.target.closest("button, a, .v-panel") || !view[idx]) return;
     var r = shownRect(view[idx]);
     if(e.clientX < r.left || e.clientX > r.left + r.width || e.clientY < r.top || e.clientY > r.top + r.height) closeViewer();
   });
@@ -567,13 +872,15 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   });
 
   document.addEventListener("keydown", function(e){
-    if(v.hidden) return;
+    if(v.hidden || $("namedlg").open) return;
+    var tag = (e.target && e.target.tagName) || "";
+    if(tag === "TEXTAREA" || tag === "INPUT"){ if(e.key === "Escape"){ e.preventDefault(); e.target.blur(); } return; }
     if(e.key === "Escape"){ e.preventDefault(); closeViewer(); }
     else if(e.key === "ArrowLeft"){ step(-1); }
     else if(e.key === "ArrowRight"){ step(1); }
     else if((e.key === "f" || e.key === "F") && !e.metaKey && !e.ctrlKey){ toggleFav(view[idx].id); }
     else if(e.key === "Tab"){
-      var f = Array.prototype.filter.call(v.querySelectorAll("button,a[href]"), function(el){ return !el.disabled && el.offsetParent !== null; });
+      var f = Array.prototype.filter.call(v.querySelectorAll("button,a[href],textarea"), function(x){ return !x.disabled && x.offsetParent !== null; });
       if(!f.length) return;
       var first = f[0], last = f[f.length - 1];
       if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
@@ -583,8 +890,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 
   $("up").addEventListener("click", function(e){
     e.preventDefault();
-    var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
+    window.scrollTo({ top: 0, behavior: calm.matches ? "auto" : "smooth" });
   });
 })();
 </script>

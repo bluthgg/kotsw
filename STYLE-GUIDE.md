@@ -274,5 +274,12 @@ Browsers cache favicons hard. Check a change in a private window.
 - **Look:** the home page's slate and copper tokens, with copper as the accent. Copper logo files, back link to `/#else`, footer with the crest and "Back to top". It also has a "Lock gallery" button in the footer.
 - **Grid:** justified rows, set by script. Every row fills the width and no photo is cropped. Gap 6px, 6px corners. Target row height is 120px on phones, 180px mid-size and 220px on desktop.
 - **Heart (favorite):** copper when on. It shows on hover on desktop and always on touch screens. Favorites are saved in the browser (`kotsw-wedding-favs-v1`).
-- **Viewer:** a full-screen dark layer with the same dark colors in light and dark mode (`--veil`). Arrow keys, Esc, F to favorite, swipe on phones. Each photo has a link of the form `/wedding/#<photo id>`.
+- **Section nav:** a sticky row of pills. Fade edges and arrow buttons show when more pills are off screen. Tapping a pill, or scrolling to a section, slides that pill to the middle of the row. Pills scroll the page by script, so they add no browser history entries.
+- **Viewer:** a full-screen dark layer with the same dark colors in light and dark mode (`--veil`). Arrow keys, Esc, F to favorite, swipe on phones. Each photo has a link of the form `/wedding/#<photo id>`. Clicking or tapping anywhere outside the photo, or the X, closes it. Opening grows the photo out of its thumbnail and closing shrinks it back. The grid scrolls to the photo you ended on, even after paging through many. The page turns off the browser's own scroll restoration so that this works. Motion is skipped for visitors who prefer reduced motion.
 - **Access:** the page and photos are behind `src/worker.js`. See `CLAUDE.md` for the password secret.
+
+Hearts and comments (added later):
+- The heart button on each thumbnail shows the shared count (copper when it is yours). A small speech bubble with a count sits bottom-left of a thumbnail only when it has approved comments, and opens the viewer with the comments panel.
+- Viewer: a comments button next to the heart. On desktop the panel is a 360px column on the right. On phones it is a bottom sheet (max 52vh).
+- "Most loved" and "My favorites" are two toggles in the section bar. Names are asked once in a native dialog.
+- Everything guests write is inserted with textContent, never innerHTML.
