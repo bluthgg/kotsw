@@ -37,6 +37,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html{scrollbar-gutter:stable}
 html.lock{overflow:hidden}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--ui);-webkit-text-size-adjust:100%}
 img{max-width:100%;display:block}
@@ -71,7 +72,17 @@ ul{padding:0;list-style:none}
 /* sticky section nav */
 .gnav{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);border-top:1px solid var(--line)}
 .gnav .wrap{display:flex;gap:10px;align-items:center;padding-top:10px;padding-bottom:10px}
-.pills{display:flex;gap:6px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding:2px}
+.pillwrap{position:relative;flex:1;min-width:0}
+.pillwrap::before,.pillwrap::after{content:"";position:absolute;top:0;bottom:0;width:56px;pointer-events:none;z-index:1;opacity:0;transition:opacity .2s}
+.pillwrap::before{left:0;background:linear-gradient(to right,var(--bg) 35%,transparent)}
+.pillwrap::after{right:0;background:linear-gradient(to left,var(--bg) 35%,transparent)}
+.pillwrap.can-l::before,.pillwrap.can-r::after{opacity:1}
+.pbtn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:32px;height:32px;padding:0;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--surface);cursor:pointer}
+.pbtn svg{width:16px;height:16px}
+.pbtn:hover{border-color:var(--copper)}
+.pbtn.l{left:0}.pbtn.r{right:0}
+@media (hover:none){.pbtn{display:none}}
+.pills{position:relative;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
 .pills::-webkit-scrollbar{display:none}
 .pills a{display:flex;align-items:baseline;gap:8px;white-space:nowrap;padding:7px 14px;border:1px solid var(--line);border-radius:99px;text-decoration:none;font:600 14px var(--ui)}
 .pills a small{font:700 11px var(--mono);color:var(--muted)}
@@ -119,7 +130,9 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 .vb:disabled{opacity:.3;cursor:default}
 .v-stage{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);padding:0 max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));touch-action:pan-y pinch-zoom}
 .v-stage img{grid-area:1/1;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-.v-stage .low{filter:blur(3px)}
+.viewer{transition:opacity .28s}
+.viewer.anim .v-stage img{visibility:hidden}
+.ghost{position:fixed;z-index:60;margin:0;max-width:none;object-fit:cover;border-radius:6px;pointer-events:none;transition:left .3s cubic-bezier(.2,.7,.2,1),top .3s cubic-bezier(.2,.7,.2,1),width .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),border-radius .3s}
 .v-stage .full{opacity:0;transition:opacity .25s}
 .v-stage .full.ready{opacity:1}
 .v-stage.loaded .low{visibility:hidden}
@@ -149,6 +162,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{transition:none!important}
+  .ghost{display:none}
 }
 </style>
 </head>
@@ -179,9 +193,13 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   </div>
 </header>
 
-<nav class="gnav" aria-label="Photo sections">
+<nav class="gnav" id="gnav" aria-label="Photo sections">
   <div class="wrap">
-    <div class="pills" id="pills"></div>
+    <div class="pillwrap" id="pillwrap">
+      <button class="pbtn l" id="pl" type="button" aria-label="Scroll sections left" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="pills" id="pills"></div>
+      <button class="pbtn r" id="pr" type="button" aria-label="Scroll sections right" hidden><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
     <button class="favtog" id="favtog" type="button" aria-pressed="false" hidden>
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       Favorites <span class="n" id="favn">0</span>
@@ -251,6 +269,8 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   var $ = function(id){ return document.getElementById(id); };
   var flat = [], byId = {}, tiles = {}, secEls = [], favs = {}, favOnly = false;
   var view = [], idx = -1, lastFocus = null, inFavs = false;
+  var calm = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  var navLock = false, lockT = 0;
 
   /* favorites, kept in this browser only */
   try { (JSON.parse(localStorage.getItem(FAV_KEY) || "[]") || []).forEach(function(id){ favs[id] = 1; }); } catch(e){}
@@ -267,6 +287,9 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     refresh();
   }
 
+  /* we put the grid back where the photo is when the viewer closes, so the browser must not restore its own scroll position */
+  try { if("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch(e){}
+
   /* build the page */
   fetch(BASE + "photos.json", { credentials: "same-origin" }).then(function(r){
     if(!r.ok) throw new Error(r.status); return r.json();
@@ -282,6 +305,13 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
       a.innerHTML = '<span></span><small></small>';
       a.firstChild.textContent = s.title; a.lastChild.textContent = s.count;
       pills.appendChild(a);
+      a.addEventListener("click", function(e){
+        e.preventDefault(); /* scroll ourselves so tapping a pill does not add browser history entries */
+        navLock = true; clearTimeout(lockT);
+        lockT = setTimeout(function(){ navLock = false; }, 1200);
+        setActive(si);
+        secEls[si].el.scrollIntoView({ behavior: calm.matches ? "auto" : "smooth", block: "start" });
+      });
 
       var sec = document.createElement("section");
       sec.className = "gsec"; sec.id = "sec-" + s.id;
@@ -329,6 +359,11 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
       if(favOnly) window.scrollTo(0, Math.max(0, $("main").getBoundingClientRect().top + window.scrollY - 60));
     });
 
+    var P = $("pills");
+    P.addEventListener("scroll", updateEdges, { passive: true });
+    $("pl").addEventListener("click", function(){ P.scrollBy({ left: -P.clientWidth * 0.7, behavior: calm.matches ? "auto" : "smooth" }); });
+    $("pr").addEventListener("click", function(){ P.scrollBy({ left: P.clientWidth * 0.7, behavior: calm.matches ? "auto" : "smooth" }); });
+    window.addEventListener("resize", updateEdges);
     watchSections();
     refresh();
     window.addEventListener("resize", queueLayout);
@@ -348,7 +383,7 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
       o.el.hidden = !any; o.pill.hidden = !any; shown += any;
     });
     $("favempty").hidden = !(favOnly && !shown);
-    layout();
+    layout(); updateEdges();
   }
 
   /* justified rows: every row fills the width, nothing is cropped */
@@ -375,25 +410,35 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     }
   }
 
-  /* highlight the section pill for the part of the page on screen */
+  /* section pills: highlight the one for the part of the page on screen, and keep it in view */
+  function centerPill(a){
+    var P = $("pills"), left = a.offsetLeft - (P.clientWidth - a.offsetWidth) / 2;
+    P.scrollTo({ left: Math.max(0, left), behavior: calm.matches ? "auto" : "smooth" });
+  }
+  function setActive(i){
+    secEls.forEach(function(o, k){ o.pill.setAttribute("aria-current", k === i ? "true" : "false"); });
+    if(secEls[i]) centerPill(secEls[i].pill);
+  }
+  function updateEdges(){
+    var P = $("pills"), max = P.scrollWidth - P.clientWidth;
+    var l = P.scrollLeft > 4, r = P.scrollLeft < max - 4;
+    $("pillwrap").classList.toggle("can-l", l); $("pillwrap").classList.toggle("can-r", r);
+    $("pl").hidden = !l; $("pr").hidden = !r;
+  }
   function watchSections(){
     if(!("IntersectionObserver" in window)) return;
-    var pills = $("pills");
     var io = new IntersectionObserver(function(entries){
+      if(navLock) return; /* a pill was just tapped: the page is scrolling, let the tapped pill stay selected */
       entries.forEach(function(en){
         if(!en.isIntersecting) return;
-        secEls.forEach(function(o){
-          var on = o.el === en.target;
-          o.pill.setAttribute("aria-current", on ? "true" : "false");
-          if(on){ pills.scrollTo({ left: Math.max(0, o.pill.offsetLeft - 24), behavior: "smooth" }); }
-        });
+        for(var k = 0; k < secEls.length; k++){ if(secEls[k].el === en.target){ setActive(k); break; } }
       });
     }, { rootMargin: "-20% 0px -70% 0px" });
     secEls.forEach(function(o){ io.observe(o.el); });
   }
 
   /* viewer */
-  var v = $("viewer"), low = $("vlow"), full = $("vfull");
+  var v = $("viewer"), low = $("vlow"), full = $("vfull"), closing = false;
   function currentView(){ return flat.filter(function(p){ return !favOnly || favs[p.id]; }); }
   function paintViewerFav(){
     var on = !!favs[view[idx].id], b = $("vfav");
@@ -419,26 +464,84 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
     [idx - 1, idx + 1].forEach(function(j){ if(view[j]){ var im = new Image(); im.src = BASE + view[j].f; } });
     history.replaceState(history.state, "", "#" + p.id);
   }
-  function openViewer(id, push){
+
+  /* where the photo is drawn inside the viewer (the image box uses object-fit: contain) */
+  function shownRect(p){
+    var b = full.getBoundingClientRect();
+    var s = Math.min(b.width / p.w, b.height / p.h), w = p.w * s, h = p.h * s;
+    return { left: b.left + (b.width - w) / 2, top: b.top + (b.height - h) / 2, width: w, height: h };
+  }
+  function place(el, r){ el.style.left = r.left + "px"; el.style.top = r.top + "px"; el.style.width = r.width + "px"; el.style.height = r.height + "px"; }
+  function ghost(src, r){
+    var g = document.createElement("img");
+    g.className = "ghost"; g.alt = ""; g.src = src; place(g, r);
+    document.body.appendChild(g); return g;
+  }
+  /* scroll the page, with no animation, so this photo's thumbnail is on screen. Returns its box, or null. */
+  function revealTile(id){
+    var t = tiles[id]; if(!t || t.li.hidden) return null;
+    var r = t.li.getBoundingClientRect(), top = $("gnav").offsetHeight + 8;
+    if(r.top < top || r.bottom > window.innerHeight - 8){
+      var el = document.documentElement, old = el.style.scrollBehavior;
+      el.style.scrollBehavior = "auto";
+      window.scrollTo(0, window.scrollY + r.top - (window.innerHeight - r.height) / 2);
+      el.style.scrollBehavior = old;
+      r = t.li.getBoundingClientRect();
+    }
+    return r;
+  }
+  function animateOpen(p, from){
+    var g = ghost(BASE + p.t, from);
+    v.classList.add("anim"); v.style.opacity = "0";
+    void g.offsetWidth;
+    g.style.borderRadius = "0px"; place(g, shownRect(p)); v.style.opacity = "1";
+    setTimeout(function(){ g.remove(); v.classList.remove("anim"); v.style.opacity = ""; }, 330);
+  }
+  function animateClose(done){
+    var p = view[idx], from = shownRect(p);
+    var to = calm.matches ? null : revealTile(p.id);
+    if(!to){ done(); return; }
+    var g = ghost(BASE + p.t, from);
+    v.classList.add("anim");
+    void g.offsetWidth;
+    g.style.borderRadius = "6px"; place(g, to); v.style.opacity = "0";
+    setTimeout(function(){ g.remove(); done(); }, 330);
+  }
+
+  function openViewer(id, fromClick){
     view = currentView(); inFavs = favOnly; idx = view.findIndex(function(p){ return p.id === id; });
     if(idx < 0){ view = flat.slice(); inFavs = false; idx = view.findIndex(function(p){ return p.id === id; }); }
     if(idx < 0) return;
     lastFocus = document.activeElement;
+    var t = tiles[id];
+    var from = (fromClick && !calm.matches && t && !t.li.hidden) ? t.li.getBoundingClientRect() : null;
     v.hidden = false; document.documentElement.classList.add("lock");
-    if(push) history.pushState({ viewer: 1 }, "", "#" + id);
+    if(fromClick) history.pushState({ viewer: 1 }, "", "#" + id);
     show(); $("vclose").focus();
+    if(from) animateOpen(view[idx], from);
   }
   function hideViewer(){
     if(v.hidden) return;
-    v.hidden = true; document.documentElement.classList.remove("lock");
+    var p = view[idx];
+    v.hidden = true; v.classList.remove("anim"); v.style.opacity = "";
+    document.documentElement.classList.remove("lock");
     full.removeAttribute("src"); low.removeAttribute("src");
-    if(lastFocus && lastFocus.focus && document.contains(lastFocus) && !lastFocus.closest("[hidden]")) lastFocus.focus();
+    Array.prototype.forEach.call(document.querySelectorAll(".ghost"), function(g){ g.remove(); });
+    var t = p && tiles[p.id];
+    if(t && !t.li.hidden){ revealTile(p.id); t.open.focus({ preventScroll: true }); }
+    else if(lastFocus && lastFocus.focus && document.contains(lastFocus) && !lastFocus.closest("[hidden]")) lastFocus.focus();
   }
   function closeViewer(){
-    if(history.state && history.state.viewer) history.back();
-    else { hideViewer(); history.replaceState(null, "", location.pathname + location.search); }
+    if(closing || v.hidden) return;
+    closing = true;
+    animateClose(function(){
+      closing = false;
+      var pushed = history.state && history.state.viewer;
+      hideViewer();
+      if(pushed) history.back(); else history.replaceState(null, "", location.pathname + location.search);
+    });
   }
-  function step(d){ var j = idx + d; if(j >= 0 && j < view.length){ idx = j; show(); } }
+  function step(d){ var j = idx + d; if(!closing && j >= 0 && j < view.length){ idx = j; show(); } }
 
   window.addEventListener("popstate", hideViewer);
   window.addEventListener("hashchange", function(){
@@ -449,7 +552,12 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
   $("vprev").addEventListener("click", function(){ step(-1); });
   $("vnext").addEventListener("click", function(){ step(1); });
   $("vfav").addEventListener("click", function(){ toggleFav(view[idx].id); });
-  $("vstage").addEventListener("click", function(e){ if(e.target === $("vstage")) closeViewer(); });
+  /* a click anywhere outside the photo itself closes the viewer */
+  v.addEventListener("click", function(e){
+    if(e.target.closest("button, a") || !view[idx]) return;
+    var r = shownRect(view[idx]);
+    if(e.clientX < r.left || e.clientX > r.left + r.width || e.clientY < r.top || e.clientY > r.top + r.height) closeViewer();
+  });
 
   var sx = 0, sy = 0;
   $("vstage").addEventListener("pointerdown", function(e){ sx = e.clientX; sy = e.clientY; });
