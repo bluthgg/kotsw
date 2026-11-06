@@ -283,3 +283,4 @@ Hearts and comments (added later):
 - Viewer: a comments button next to the heart. On desktop the panel is a 360px column on the right. On phones it is a bottom sheet (max 52vh).
 - "Most loved" and "My favorites" are two toggles in the section bar. Names are asked once in a native dialog.
 - Everything guests write is inserted with textContent, never innerHTML.
+- Videos page (`/wedding/videos/`): same tokens and top bar as the photo page. Each video is a 16:9 poster that swaps to a youtube-nocookie iframe on click, with its comments underneath.

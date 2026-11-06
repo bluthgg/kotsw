@@ -340,6 +340,7 @@ h1{font:800 clamp(40px,8vw,64px)/.95 var(--display);text-transform:uppercase;mar
 ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 li{display:grid;grid-template-columns:96px 1fr;gap:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px}
 li img{width:96px;height:96px;object-fit:cover;border-radius:8px;background:var(--surface2)}
+.vtile{width:96px;height:96px;display:grid;place-items:center;border-radius:8px;background:var(--surface2);color:var(--muted);font:700 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
 .meta{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;font:700 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .meta b{color:var(--fg)}
 .pill{padding:2px 8px;border-radius:99px;border:1px solid var(--line)}
@@ -349,7 +350,7 @@ li img{width:96px;height:96px;object-fit:cover;border-radius:8px;background:var(
 .acts{display:flex;gap:8px;flex-wrap:wrap}
 .acts .btn{padding:9px 14px;font-size:14px}
 .empty{border:1px dashed var(--line);border-radius:12px;padding:24px;color:var(--muted)}
-@media (max-width:520px){li{grid-template-columns:72px 1fr}li img{width:72px;height:72px}}
+@media (max-width:520px){li{grid-template-columns:72px 1fr}li img,.vtile{width:72px;height:72px}}
 </style>
 </head>
 <body>
@@ -387,10 +388,17 @@ li img{width:96px;height:96px;object-fit:cover;border-radius:8px;background:var(
     $("empty").textContent = tab === "pending" ? "No comments are waiting." : "No approved comments yet.";
     rows.forEach(function(c){
       var li = document.createElement("li");
-      var a = document.createElement("a"); a.href = "/wedding/#" + c.photo_id; a.target = "_blank"; a.rel = "noopener";
-      var im = document.createElement("img"); im.alt = "Photo " + c.photo_id; im.loading = "lazy";
-      im.src = "/wedding/thumbs/" + c.photo_id.slice(0, -5) + "/" + c.photo_id.slice(-4) + ".jpg";
-      a.appendChild(im); li.appendChild(a);
+      var isVid = c.photo_id.indexOf("video-") === 0;
+      var a = document.createElement("a"); a.href = isVid ? "/wedding/videos/#" + c.photo_id : "/wedding/#" + c.photo_id; a.target = "_blank"; a.rel = "noopener";
+      if (isVid) {
+        var vt = document.createElement("div"); vt.className = "vtile"; vt.textContent = "Video " + c.photo_id.slice(-4);
+        a.appendChild(vt);
+      } else {
+        var im = document.createElement("img"); im.alt = "Photo " + c.photo_id; im.loading = "lazy";
+        im.src = "/wedding/thumbs/" + c.photo_id.slice(0, -5) + "/" + c.photo_id.slice(-4) + ".jpg";
+        a.appendChild(im);
+      }
+      li.appendChild(a);
       var d = document.createElement("div");
       var m = document.createElement("div"); m.className = "meta";
       var b = document.createElement("b"); b.textContent = c.guest_name;

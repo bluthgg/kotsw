@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Videos · Sam and Mel's Wedding</title>
+<meta name="description" content="Wedding videos, for family and friends.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Wedding videos. Same look as the photo gallery. Videos are listed in videos.json (YouTube ids). */
+:root{
+  --bg:#0b1016; --surface:#111922; --surface2:#1c2833; --line:#26333f;
+  --fg:#e9eef2; --muted:#93a2b0; --copper:#e09a63;
+  --veil:#06090d; --veil-fg:#e9eef2;
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --ui:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f5f7f8; --surface:#ffffff; --surface2:#d9e0e6; --line:#cbd5dd;
+    --fg:#0e1319; --muted:#4c5b69; --copper:#a65a26;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f5f7f8; --surface:#ffffff; --surface2:#d9e0e6; --line:#cbd5dd;
+  --fg:#0e1319; --muted:#4c5b69; --copper:#a65a26;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{scrollbar-gutter:stable}
+html.lock{overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--ui);-webkit-text-size-adjust:100%}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--copper);outline-offset:3px;border-radius:4px}
+h1,h2,h3,p,ul,figure{margin:0}
+ul{padding:0;list-style:none}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.eyebrow{font:700 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.topbar{border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:16px}
+.logo{display:inline-flex;line-height:0}
+.logo img{height:44px;width:auto}
+.back{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.back:hover,.back:focus-visible{color:var(--copper);border-color:var(--copper)}
+svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hero .wrap{padding-top:56px;padding-bottom:12px}
+.hero h1{font:800 clamp(52px,9vw,104px)/.9 var(--display);text-transform:uppercase;margin:14px 0 20px;text-wrap:balance}
+.lead{max-width:52ch;color:var(--muted);font-size:18px}
+.vid{padding-top:44px;scroll-margin-top:16px;max-width:900px}
+.vid h2{font:800 clamp(28px,4.5vw,40px)/1 var(--display);text-transform:uppercase;margin:6px 0 12px;text-wrap:balance}
+.player{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#000}
+.player button{all:unset;display:block;width:100%;height:100%;cursor:pointer;position:relative}
+.player button:focus-visible{outline:2px solid var(--copper);outline-offset:-4px}
+.player img,.player iframe{width:100%;height:100%;object-fit:cover;border:0}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--veil) 70%,transparent);color:#fff;border:2px solid var(--copper);transition:transform .15s}
+.player button:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+.play svg{width:30px;height:30px;fill:currentColor;stroke:none;margin-left:4px}
+.note{color:var(--muted);margin-top:12px;max-width:60ch}
+.yt{display:inline-block;margin-top:10px;font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.yt:hover{color:var(--copper)}
+.cm{margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.cm h3{font:700 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cm-list{list-style:none;margin:12px 0 0;display:flex;flex-direction:column;gap:14px}
+.cm-list li{font-size:15px}
+.cm-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.cm-meta b{color:var(--fg);font-size:15px}
+.cm-wait{color:var(--copper)}
+.cm-del{margin-left:auto;background:none;border:0;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer;padding:4px}
+.cm-text{margin-top:3px;white-space:pre-wrap;overflow-wrap:anywhere}
+.cm-empty{color:var(--muted)}
+.cm-form{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.cm-form textarea{width:100%;min-height:72px;resize:vertical;font:16px/1.4 var(--ui);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:8px;padding:10px}
+.cm-form textarea:focus{outline:2px solid var(--copper);outline-offset:1px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.row small{color:var(--muted);font-size:12px}
+.post{font:700 14px var(--ui);padding:9px 18px;border-radius:99px;border:0;background:var(--copper);color:#15110e;cursor:pointer}
+.post:disabled{opacity:.5}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:28px;margin-top:44px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:max(20px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;background:var(--surface);color:var(--fg);border:1px solid var(--copper);border-radius:10px;padding:10px 16px;font-size:14px;max-width:90vw}
+.namedlg{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--fg);padding:22px;width:min(92vw,380px)}
+.namedlg::backdrop{background:rgba(0,0,0,.6)}
+.namedlg h3{font:800 22px var(--display);text-transform:uppercase}
+.namedlg p{color:var(--muted);font-size:14px;margin:6px 0 14px}
+.namedlg input{width:100%;font:16px var(--ui);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:8px;padding:10px}
+.namedlg .row{margin-top:14px;justify-content:flex-end}
+.namedlg .ghostb{background:none;border:0;color:var(--muted);font:600 14px var(--ui);cursor:pointer;padding:9px 12px}
+.foot{margin-top:72px;border-top:1px solid var(--line)}
+.foot .frow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:24px;padding-bottom:max(32px,env(safe-area-inset-bottom,0px))}
+.foot .fbrand{display:flex;align-items:center;gap:14px}
+.foot .fbrand img{height:32px;width:auto}
+.foot .fbrand p{color:var(--muted);font-size:14px}
+.foot a.lk,.foot .lockbtn{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;background:none;border:0;padding:0;cursor:pointer}
+.foot a.lk:hover,.foot .lockbtn:hover{color:var(--fg)}
+.foot .fright{display:flex;align-items:center;gap:22px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body id="top">
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Knights of the Silicon Wafer home">
+      <picture>
+        <source srcset="/brand/kotsw-lockup-light.svg" media="(prefers-color-scheme: light)">
+        <img src="/brand/kotsw-lockup-dark.svg" alt="Knights of the Silicon Wafer" height="44">
+      </picture>
+    </a>
+    <a class="back" href="/wedding/"><span aria-hidden="true">←</span> Back to the photos</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Wedding videos · September 5, 2026</p>
+    <h1>Videos</h1>
+    <p class="lead">Press play to watch. You can leave a comment under any video. Comments show up after we approve them.</p>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <noscript><p class="empty">The videos need JavaScript.</p></noscript>
+  <div id="vids"></div>
+  <p class="empty" id="none" hidden>No videos yet. Check back soon.</p>
+  <p class="empty" id="err" hidden>The videos did not load. Refresh the page to try again.</p>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="frow">
+      <div class="fbrand">
+        <picture>
+          <source srcset="/brand/kotsw-crest-light.svg" media="(prefers-color-scheme: light)">
+          <img src="/brand/kotsw-crest-dark.svg" alt="" aria-hidden="true" height="32">
+        </picture>
+        <p>© 2026 Knights of the Silicon Wafer</p>
+      </div>
+      <div class="fright">
+        <button class="lockbtn" id="chname" type="button" hidden></button>
+        <form method="post" action="/wedding/logout"><button class="lockbtn" type="submit">Lock gallery</button></form>
+        <a class="lk" href="/wedding/admin">Admin</a>
+        <a class="lk" href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<p class="toast" id="toast" role="status" hidden></p>
+<dialog class="namedlg" id="namedlg">
+  <form id="nameform" method="dialog">
+    <h3>Your name</h3>
+    <p>Shown next to your comments. You only need to do this once.</p>
+    <input id="nameinp" type="text" maxlength="40" autocomplete="name" aria-label="Your name" required>
+    <div class="row"><button class="ghostb" id="namecancel" type="button">Cancel</button><button class="post" type="submit">Save</button></div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+  var API = "/wedding/api/", NAME_KEY = "kotsw-wedding-name-v1";
+  var $ = function(id){ return document.getElementById(id); };
+  function el(tag, cls){ var e = document.createElement(tag); if(cls) e.className = cls; return e; }
+  var myName = "", pendingCb = null, toastT = 0, serverOn = true;
+  try { myName = localStorage.getItem(NAME_KEY) || ""; } catch(e){}
+  function cleanName(s){ return String(s || "").replace(/\s+/g, " ").trim().slice(0, 40); }
+  function toast(m){ var t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; }, 3500); }
+  function api(path, body){
+    var o = { credentials: "same-origin" };
+    if(body){ o.method = "POST"; o.headers = { "Content-Type": "application/json" }; o.body = JSON.stringify(body); }
+    return fetch(API + path, o).then(function(r){ if(!r.ok){ var e = new Error(r.status); e.status = r.status; throw e; } return r.json(); });
+  }
+  /* accepts a bare 11 character id or any youtube link */
+  function ytId(s){
+    s = String(s || "").trim();
+    var m = s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([A-Za-z0-9_-]{11})/);
+    if(m) return m[1];
+    return /^[A-Za-z0-9_-]{11}$/.test(s) ? s : "";
+  }
+
+  function paintName(){ var b = $("chname"); b.hidden = !serverOn; b.textContent = myName ? "Name: " + myName + " (change)" : "Add your name"; }
+  function askName(cb){
+    pendingCb = cb || null; $("nameinp").value = myName;
+    var d = $("namedlg"); if(typeof d.showModal === "function") d.showModal(); else d.setAttribute("open", "");
+    $("nameinp").focus(); $("nameinp").select();
+  }
+  function ensureName(cb){ if(myName) cb(); else askName(cb); }
+  $("nameform").addEventListener("submit", function(e){
+    e.preventDefault(); var n = cleanName($("nameinp").value); if(!n){ $("nameinp").focus(); return; }
+    myName = n; try { localStorage.setItem(NAME_KEY, n); } catch(x){}
+    paintName(); var cb = pendingCb; pendingCb = null; $("namedlg").close(); if(cb) cb();
+  });
+  $("namecancel").addEventListener("click", function(){ pendingCb = null; $("namedlg").close(); });
+  $("chname").addEventListener("click", function(){ askName(null); });
+
+  function commentLi(c, vid){
+    var li = el("li"), m = el("div", "cm-meta"), b = el("b"); b.textContent = c.name;
+    var t = el("span"); t.textContent = new Date(c.at * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    m.appendChild(b); m.appendChild(t);
+    if(c.pending){ var w = el("span", "cm-wait"); w.textContent = "Waiting for approval"; m.appendChild(w); }
+    if(c.mine){
+      var d = el("button", "cm-del"); d.type = "button"; d.textContent = "Delete";
+      d.addEventListener("click", function(){
+        if(d.dataset.sure !== "1"){ d.dataset.sure = "1"; d.textContent = "Tap again to delete"; setTimeout(function(){ d.dataset.sure = ""; d.textContent = "Delete"; }, 4000); return; }
+        api("comment/delete", { id: c.id }).then(function(){ li.remove(); vid.paintCount(); }).catch(function(){ toast("Could not delete that. Try again."); });
+      });
+      m.appendChild(d);
+    }
+    var x = el("p", "cm-text"); x.textContent = c.body;
+    li.appendChild(m); li.appendChild(x); return li;
+  }
+
+  function buildVideo(v, n){
+    var id = ytId(v.youtube); if(!id || !/^video-\d{4}$/.test(v.id || "")) return null;
+    var art = el("article", "vid"); art.id = v.id; art.setAttribute("aria-labelledby", "h-" + v.id);
+    var eb = el("p", "eyebrow"); eb.textContent = "Video " + ("0" + n).slice(-2);
+    var h2 = el("h2"); h2.id = "h-" + v.id; h2.textContent = v.title || "Video";
+    var pl = el("div", "player"), btn = el("button"); btn.type = "button"; btn.setAttribute("aria-label", "Play " + (v.title || "video"));
+    var im = el("img"); im.alt = ""; im.loading = "lazy"; im.src = "https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg";
+    im.onerror = function(){ im.onerror = null; im.src = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg"; };
+    var pp = el("span", "play"); pp.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
+    btn.appendChild(im); btn.appendChild(pp); pl.appendChild(btn);
+    btn.addEventListener("click", function(){
+      var f = el("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&modestbranding=1";
+      f.title = v.title || "Wedding video"; f.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media"; f.allowFullscreen = true;
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      pl.innerHTML = ""; pl.appendChild(f);
+    });
+    art.appendChild(eb); art.appendChild(h2); art.appendChild(pl);
+    if(v.note){ var nt = el("p", "note"); nt.textContent = v.note; art.appendChild(nt); }
+    var yt = el("a", "yt"); yt.href = "https://www.youtube.com/watch?v=" + id; yt.target = "_blank"; yt.rel = "noopener"; yt.textContent = "Watch on YouTube (best for 4K)"; art.appendChild(yt);
+
+    var cm = el("section", "cm"); cm.hidden = true; cm.setAttribute("aria-label", "Comments");
+    var ch = el("h3"); var list = el("ul", "cm-list");
+    var form = el("form", "cm-form");
+    var ta = el("textarea"); ta.maxLength = 600; ta.rows = 3; ta.placeholder = "Write a comment"; ta.setAttribute("aria-label", "Write a comment");
+    var row = el("div", "row"), hint = el("small"); hint.textContent = "Comments show up after approval.";
+    var post = el("button", "post"); post.type = "submit"; post.textContent = "Post";
+    row.appendChild(hint); row.appendChild(post); form.appendChild(ta); form.appendChild(row);
+    cm.appendChild(ch); cm.appendChild(list); cm.appendChild(form); art.appendChild(cm);
+    var vid = { el: art, cm: cm };
+    function approvedCount(){ return Array.prototype.filter.call(list.children, function(li){ return li.dataset.pending !== "1" && !li.classList.contains("cm-empty"); }).length; }
+    vid.paintCount = function(){
+      var k = approvedCount(); ch.textContent = k ? "Comments (" + k + ")" : "Comments";
+      if(!list.children.length){ var e = el("li", "cm-empty"); e.textContent = "No comments yet. Be the first."; list.appendChild(e); }
+    };
+    function add(c){
+      var f = list.firstChild; if(f && f.classList.contains("cm-empty")) list.innerHTML = "";
+      var li = commentLi(c, vid); if(c.pending) li.dataset.pending = "1"; list.appendChild(li);
+    }
+    api("photo?id=" + encodeURIComponent(v.id)).then(function(d){
+      cm.hidden = false; (d.comments || []).forEach(add); vid.paintCount();
+    }).catch(function(){ serverOn = false; paintName(); /* no comments service: leave the section hidden */ });
+    form.addEventListener("submit", function(e){
+      e.preventDefault(); var body = ta.value.trim(); if(!body) return;
+      ensureName(function(){
+        post.disabled = true;
+        api("comment", { id: v.id, name: myName, body: body }).then(function(r){
+          ta.value = ""; add(r.comment); vid.paintCount(); hint.textContent = "Thank you! It will show up once it is approved.";
+        }).catch(function(err){
+          toast(err.status === 429 ? "That is a lot of comments. Try again in a few minutes." : "Could not post that. Try again.");
+        }).then(function(){ post.disabled = false; });
+      });
+    });
+    return vid;
+  }
+
+  fetch("/wedding/videos.json", { credentials: "same-origin" }).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }).then(function(data){
+    var box = $("vids"), n = 0;
+    (data.videos || []).forEach(function(v){ var b = buildVideo(v, n + 1); if(b){ n++; box.appendChild(b.el); } });
+    $("none").hidden = n > 0; paintName();
+    var h = decodeURIComponent((location.hash || "").slice(1));
+    if(h && $(h)) setTimeout(function(){ $(h).scrollIntoView(); }, 300);
+  }).catch(function(){ $("err").hidden = false; });
+})();
+</script>
+</body>
+</html>
